@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
-import Modal from './Modal';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import { useState } from "react";
+import Modal from "./ui/Modal";
+import LoginForm from "./auth/LoginForm";
+import RegisterForm from "./auth/RegisterForm";
 
 const Header: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -13,10 +13,16 @@ const Header: React.FC = () => {
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
       <h1 className="text-2xl font-bold">Holidaze</h1>
       <div>
-        <button onClick={() => setIsLoginOpen(true)} className="mr-4 p-2 border border-gray-300 rounded">
+        <button
+          onClick={() => setIsLoginOpen(true)}
+          className="mr-4 p-2 border border-gray-300 rounded"
+        >
           Login
         </button>
-        <button onClick={() => setIsRegisterOpen(true)} className="p-2 bg-pink-500 text-white rounded">
+        <button
+          onClick={() => setIsRegisterOpen(true)}
+          className="p-2 bg-pink-500 text-white rounded"
+        >
           Register
         </button>
       </div>
@@ -31,6 +37,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-
-
-
