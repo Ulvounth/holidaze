@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "./ui/Modal";
 import LoginForm from "./auth/LoginForm";
 import RegisterForm from "./auth/RegisterForm";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -11,7 +12,9 @@ const Header: React.FC = () => {
 
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
-      <h1 className="text-2xl font-bold">Holidaze</h1>
+      <Link href="/">
+        <h1 className="text-2xl font-bold">Holidaze</h1>
+      </Link>
       <div>
         <button
           onClick={() => setIsLoginOpen(true)}
