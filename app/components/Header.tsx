@@ -1,14 +1,18 @@
+// app/components/Header.tsx
 "use client";
 
 import { useState } from "react";
 import Modal from "./ui/Modal";
-import LoginForm from "./auth/LoginForm";
-import RegisterForm from "./auth/RegisterForm";
+import LoginForm from "./ui/LoginForm";
+import RegisterForm from "./ui/RegisterForm";
 import Link from "next/link";
 
 const Header: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+
+  const closeLoginModal = () => setIsLoginOpen(false);
+  const closeRegisterModal = () => setIsRegisterOpen(false);
 
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
@@ -29,10 +33,10 @@ const Header: React.FC = () => {
           Register
         </button>
       </div>
-      <Modal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
-        <LoginForm />
+      <Modal isOpen={isLoginOpen} onClose={closeLoginModal}>
+        <LoginForm onClose={closeLoginModal} />
       </Modal>
-      <Modal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)}>
+      <Modal isOpen={isRegisterOpen} onClose={closeRegisterModal}>
         <RegisterForm />
       </Modal>
     </header>
