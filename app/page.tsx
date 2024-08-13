@@ -1,6 +1,7 @@
 // app/page.tsx
 import Link from "next/link";
 import Hero from "./components/ui/Hero";
+import VenueCard from "./components/ui/VenueCard";
 import { fetchVenues, Venue } from "./lib/fetchVenues";
 
 const Home: React.FC = async () => {
@@ -22,12 +23,12 @@ const Home: React.FC = async () => {
       <Hero />
       <Link href="/profile">Profile page</Link>
       <div>
-        <h2>Venues</h2>
-        <ul>
+        <h2 className="text-2xl font-bold mb-4">Venues</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {venues.map((venue) => (
-            <li key={venue.id}>{venue.name}</li>
+            <VenueCard key={venue.id} venue={venue} />
           ))}
-        </ul>
+        </div>
       </div>
     </>
   );
