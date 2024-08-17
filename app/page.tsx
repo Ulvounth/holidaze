@@ -1,37 +1,31 @@
 // app/page.tsx
-import Link from "next/link";
-import Hero from "./components/ui/Hero";
 import VenueCard from "./components/ui/VenueCard";
-import { fetchVenues, Venue } from "./lib/fetchVenues";
+import Hero from "./components/ui/Hero";
+import { fetchVenues } from "./lib/services/venue/fetchVenues";
+import { Venue } from "./lib/types";
 
-const Home: React.FC = async () => {
+export default async function Home() {
   let venues: Venue[] = [];
-  let error: string | null = null;
 
   try {
     venues = await fetchVenues();
   } catch (err) {
-    error = "Failed to load venues";
-  }
-
-  if (error) {
-    return <p>{error}</p>;
+    console.error("Failed to load venues", err);
   }
 
   return (
     <>
       <Hero />
-      <Link href="/profile">Profile page</Link>
-      <div>
+      <div className="container mx-auto py-6">
         <h2 className="text-2xl font-bold mb-4">Venues</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {venues.map((venue) => (
-            <VenueCard key={venue.id} venue={venue} />
-          ))}
+          {venues.length > 0 ? (
+            venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)
+          ) : (
+            <p>No venues available.</p>
+          )}
         </div>
       </div>
     </>
   );
-};
-
-export default Home;
+}

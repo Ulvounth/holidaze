@@ -1,7 +1,7 @@
-// app/components/ProductCard.tsx
+// app/components/VenueCard.tsx
 import Link from "next/link";
 import Image from "next/image";
-import { Venue } from "@/app/lib/fetchVenues";
+import { Venue } from "@/app/lib/types";
 
 interface VenueCardProps {
   venue: Venue;
@@ -27,7 +27,7 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
       </div>
       <div className="p-4">
         <h3 className="text-lg font-bold">{venue.name}</h3>
-        <div className="flex items-center text-yellow-500">
+        <div className="flex items-center">
           {[...Array(5)].map((_, i) => (
             <svg
               key={i}

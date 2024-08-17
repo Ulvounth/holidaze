@@ -1,18 +1,29 @@
-// app/components/Header.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Modal from "./ui/Modal";
-import LoginForm from "./ui/LoginForm";
-import RegisterForm from "./ui/RegisterForm";
+import LoginForm from "./auth/LoginForm";
+import RegisterForm from "./auth/RegisterForm";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../lib/authContext";
 
 const Header: React.FC = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const { isLoggedIn, login, logout } = useAuth();
+  const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
+    null
+  );
+  const router = useRouter();
 
-  const closeLoginModal = () => setIsLoginOpen(false);
-  const closeRegisterModal = () => setIsRegisterOpen(false);
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "GET",
+    });
+    logout(); // Call the logout function to update state
+    router.replace("/"); // Redirect to the homepage
+  };
+
+  const closeModal = useCallback(() => setActiveModal(null), []);
 
   return (
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
@@ -20,24 +31,42 @@ const Header: React.FC = () => {
         <h1 className="text-2xl font-bold">Holidaze</h1>
       </Link>
       <div>
-        <button
-          onClick={() => setIsLoginOpen(true)}
-          className="mr-4 p-2 border border-gray-300 rounded"
-        >
-          Login
-        </button>
-        <button
-          onClick={() => setIsRegisterOpen(true)}
-          className="p-2 bg-pink-500 text-white rounded"
-        >
-          Register
-        </button>
+        {isLoggedIn ? (
+          <>
+            <Link href="/profile">
+              <button className="mr-4 p-2 border border-gray-300 rounded">
+                Profile
+              </button>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="p-2 bg-red-500 text-white rounded"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => setActiveModal("login")}
+              className="mr-4 p-2 border border-gray-300 rounded"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setActiveModal("register")}
+              className="p-2 bg-pink-500 text-white rounded"
+            >
+              Register
+            </button>
+          </>
+        )}
       </div>
-      <Modal isOpen={isLoginOpen} onClose={closeLoginModal}>
-        <LoginForm onClose={closeLoginModal} />
+      <Modal isOpen={activeModal === "login"} onClose={closeModal}>
+        <LoginForm onClose={closeModal} onLoginSuccess={login} />
       </Modal>
-      <Modal isOpen={isRegisterOpen} onClose={closeRegisterModal}>
-        <RegisterForm />
+      <Modal isOpen={activeModal === "register"} onClose={closeModal}>
+        <RegisterForm onClose={closeModal} />
       </Modal>
     </header>
   );

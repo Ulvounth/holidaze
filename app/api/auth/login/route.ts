@@ -1,40 +1,57 @@
-// app/api/auth/login/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import cookie from 'cookie';
-
-const API_BASE_URL = 'https://v2.api.noroff.dev/'; // Replace with your actual API base URL
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { API_BASE_URL } from "@/app/lib/constants";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const response = await fetch(`${API_BASE_URL}auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    const { email, password } = await req.json();
 
-    if (!response.ok) {
-      throw new Error('Error logging in');
+    // Check if the required fields are present
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
     }
 
-    const data = await response.json();
-    const accessToken = data.data.accessToken;
-
-    // Set access token in HTTP-only cookie
-    return NextResponse.json({ message: 'Logged in successfully' }, {
+    // Make the login request to the Noroff API
+    const response = await fetch(`${API_BASE_URL}auth/login`, {
+      method: "POST",
       headers: {
-        'Set-Cookie': cookie.serialize('accessToken', accessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== 'development',
-          sameSite: 'strict',
-          maxAge: 60 * 60 * 24, // 1 day
-          path: '/',
-        }),
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({ email, password }),
     });
-  } catch (error: any) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: result.message || "Login failed" },
+        { status: response.status }
+      );
+    }
+
+    // Extract the access token from the response
+    const { accessToken } = result.data;
+
+    // Use `cookies` to set the access token as an HTTP-only cookie
+    const cookiesStore = cookies();
+    cookiesStore.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 60 * 60, // 1 hour
+      sameSite: "strict",
+      path: "/",
+    });
+
+    // Return the successful response with user data
+    return NextResponse.json({ data: result.data });
+  } catch (error) {
+    console.error("Error in POST /api/auth/login:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
