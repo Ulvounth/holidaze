@@ -1,12 +1,22 @@
 import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
 import Image from "next/image";
-import UserMessage from "@/app/components/ui/UserMessage";
+import { Metadata } from "next";
 
-export default async function VenuePage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: {
+    id: string;
+    description: string;
+  };
+};
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Venue ${params.id}`,
+    description: "Venue details",
+  };
+};
+
+export default async function VenuePage({ params }: Props) {
   try {
     const venue = await fetchVenueById(params.id);
 
@@ -46,26 +56,6 @@ export default async function VenuePage({
       </div>
     );
   } catch (error) {
-    let errorMessage =
-      "We're sorry, but we couldn't load the venue details. Please try again later.";
-
-    if (error instanceof Error) {
-      if (error.message === "Venue not found") {
-        errorMessage =
-          "The venue you're looking for doesn't exist. It might have been removed or you may have followed a broken link.";
-      }
-    }
-
-    return (
-      <div className="container mx-auto py-6">
-        <UserMessage
-          type="error"
-          title="Oops! Something went wrong."
-          message={errorMessage}
-          actionLink="/"
-          actionText="Go back to the homepage"
-        />
-      </div>
-    );
+    console.error("Error loading venue details:", error);
   }
 }
