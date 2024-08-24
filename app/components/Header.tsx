@@ -33,6 +33,7 @@ const Header: React.FC = () => {
       <div>
         {isLoggedIn ? (
           <>
+            <Link href="/createVenue">Create Venue</Link>
             <Link href="/profile">
               <button className="mr-4 p-2 border border-gray-300 rounded">
                 Profile

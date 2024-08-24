@@ -1,3 +1,4 @@
+// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -14,5 +15,9 @@ export function middleware(req: NextRequest) {
 
 // Apply the middleware to the routes that require authentication
 export const config = {
-  matcher: ["/profile/:path*", "/dashboard/:path*"], // Add protected routes here
+  matcher: [
+    "/profile/:path*",
+    "/dashboard/:path*",
+    "/createVenue", // Add create-venue to the protected routes if needed
+  ],
 };

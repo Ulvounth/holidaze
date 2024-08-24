@@ -1,8 +1,9 @@
 // app/lib/fetchVenues.ts
 import { Venue } from "../../types";
+import { API_BASE_URL } from "../../constants";
 
 export const fetchVenues = async (): Promise<Venue[]> => {
-  const response = await fetch("https://v2.api.noroff.dev/holidaze/venues", {
+  const response = await fetch(`${API_BASE_URL}holidaze/venues`, {
     cache: "no-store", // Ensure fresh data on each request
   });
 

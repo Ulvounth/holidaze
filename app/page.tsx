@@ -1,5 +1,5 @@
 // app/page.tsx
-import VenueCard from "./components/ui/VenueCard";
+import VenueCard from "./components/venue/VenueCard";
 import Hero from "./components/ui/Hero";
 import { fetchVenues } from "./lib/services/venue/fetchVenues";
 import { Venue } from "./lib/types";
