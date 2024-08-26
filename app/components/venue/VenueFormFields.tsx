@@ -85,7 +85,9 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Rating</label>
+        <label className="block text-gray-700 font-semibold mb-2">
+          Rating (0-5)
+        </label>
         <input
           type="number"
           name="rating"

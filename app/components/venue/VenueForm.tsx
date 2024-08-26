@@ -14,7 +14,7 @@ const VenueForm = () => {
     mediaAlt: "",
     price: 0,
     maxGuests: 0,
-    rating: 0, // Add rating to the form state
+    rating: 0,
     wifi: false,
     parking: false,
     breakfast: false,
