@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
+import { formatVenueData } from "@/app/lib/formatVenueData";
 
 const VenueForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const VenueForm = () => {
     mediaAlt: "",
     price: 0,
     maxGuests: 0,
+    rating: 0, // Add rating to the form state
     wifi: false,
     parking: false,
     breakfast: false,
@@ -25,18 +28,17 @@ const VenueForm = () => {
     lng: 0,
   });
 
+  const toast = useToast();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
-
-    // Convert the value to a number if the input type is 'number'
     let newValue: string | number | boolean = value;
-    if (type === "number") {
-      newValue = value === "" ? "" : parseFloat(value); // Handle empty string case
-    }
 
-    if (type === "checkbox") {
+    if (type === "number") {
+      newValue = value === "" ? "" : parseFloat(value);
+    } else if (type === "checkbox") {
       newValue = (e.target as HTMLInputElement).checked;
     }
 
@@ -49,38 +51,33 @@ const VenueForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formattedData = {
-      name: formData.name,
-      description: formData.description,
-      media: formData.mediaUrl
-        ? [{ url: formData.mediaUrl, alt: formData.mediaAlt }]
-        : [],
-      price: Number(formData.price),
-      maxGuests: Number(formData.maxGuests),
-      meta: {
-        wifi: formData.wifi,
-        parking: formData.parking,
-        breakfast: formData.breakfast,
-        pets: formData.pets,
-      },
-      location: {
-        address: formData.address,
-        city: formData.city,
-        zip: formData.zip,
-        country: formData.country,
-        continent: formData.continent,
-        lat: Number(formData.lat),
-        lng: Number(formData.lng),
-      },
-    };
+    const formattedData = formatVenueData(formData);
 
     try {
       const data = await createVenue(formattedData);
       console.log("Venue created successfully:", data);
-      // Handle success (e.g., clear form, show success message, etc.)
-    } catch (error) {
+      // Show success toast
+      toast({
+        title: "Venue created.",
+        description: "Your venue has been created successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error: any) {
       console.error("Error creating venue:", error);
-      // Handle error (e.g., show error message)
+
+      const errorMessage =
+        error?.errors?.[0]?.message ||
+        "Unable to create venue. Please try again.";
+
+      toast({
+        title: "An error occurred.",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 

@@ -16,6 +16,23 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
   const router = useRouter();
   const toast = useToast();
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    if (type === "checkbox") {
+      setFormData({
+        ...formData,
+        [name]: (e.target as HTMLInputElement).checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -31,18 +48,19 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.errors?.[0]?.message || "Registration failed");
       }
 
       // Show success toast
       toast({
         title: "Registration successful!",
+        description: "You have registered successfully.",
         status: "success",
         duration: 5000,
         isClosable: true,
       });
 
-      // After successful registration, cookies are already set, so just redirect
+      // Redirect to the homepage or other desired page after successful registration
       router.push("/");
       onClose();
     } catch (err: any) {
@@ -89,10 +107,9 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         <label className="inline-flex items-center">
           <input
             type="checkbox"
+            name="venueManager"
             checked={formData.venueManager}
-            onChange={(e) =>
-              setFormData({ ...formData, venueManager: e.target.checked })
-            }
+            onChange={handleChange}
             className="form-checkbox"
           />
           <span className="ml-2 text-gray-700">Are you a venue manager?</span>

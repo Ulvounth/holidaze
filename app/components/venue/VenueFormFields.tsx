@@ -1,4 +1,3 @@
-// components/VenueFormFields.tsx
 import React from "react";
 
 interface VenueFormFieldsProps {
@@ -82,6 +81,19 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
           value={formData.maxGuests}
           onChange={handleChange}
           required
+          className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">Rating</label>
+        <input
+          type="number"
+          name="rating"
+          value={formData.rating}
+          onChange={handleChange}
+          min={0}
+          max={5}
+          step={0.1}
           className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>

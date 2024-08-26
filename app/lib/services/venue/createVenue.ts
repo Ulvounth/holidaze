@@ -18,7 +18,7 @@ export const createVenue = async (venueData: Record<string, any>) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       console.error("API Error Response:", errorResponse);
-      throw new Error("Failed to create venue");
+      throw errorResponse; // Throwing the entire error response
     }
 
     const result = await response.json();
