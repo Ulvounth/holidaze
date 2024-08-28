@@ -10,6 +10,11 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
     name: "",
     email: "",
     password: "",
+    bio: "",
+    avatarUrl: "",
+    avatarAlt: "",
+    bannerUrl: "",
+    bannerAlt: "",
     venueManager: false,
   });
   const [error, setError] = useState<string | null>(null);
@@ -36,19 +41,65 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Client-side validation
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("Name, email, and password are required");
+      return;
+    }
+
+    if (!formData.email.endsWith("@stud.noroff.no")) {
+      setError("Email must be a valid stud.noroff.no address");
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+
+    // Only validate bio, avatar, and banner fields if they are provided
+    if (formData.bio && formData.bio.length > 160) {
+      setError("Bio must be less than 160 characters");
+      return;
+    }
+
+    if (formData.avatarUrl && formData.avatarAlt.length > 120) {
+      setError("Avatar alt text must be less than 120 characters");
+      return;
+    }
+
+    if (formData.bannerUrl && formData.bannerAlt.length > 120) {
+      setError("Banner alt text must be less than 120 characters");
+      return;
+    }
+
+    setError(null);
+
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          bio: formData.bio || undefined,
+          avatar: formData.avatarUrl
+            ? { url: formData.avatarUrl, alt: formData.avatarAlt }
+            : undefined,
+          banner: formData.bannerUrl
+            ? { url: formData.bannerUrl, alt: formData.bannerAlt }
+            : undefined,
+          venueManager: formData.venueManager,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.errors?.[0]?.message || "Registration failed");
+        throw new Error(data.error || "Registration failed");
       }
 
       // Show success toast
@@ -85,15 +136,19 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         type="text"
         placeholder="Your Name"
         value={formData.name}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        onChange={handleChange}
+        name="name"
+        required
       />
       <InputField
         id="email"
         label="Email"
         type="email"
-        placeholder="email@example.com"
+        placeholder="email@stud.noroff.no"
         value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        onChange={handleChange}
+        name="email"
+        required
       />
       <InputField
         id="password"
@@ -101,7 +156,54 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         type="password"
         placeholder="Enter your password"
         value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        onChange={handleChange}
+        name="password"
+        required
+      />
+      <InputField
+        id="bio"
+        label="Bio"
+        type="textarea"
+        placeholder="Tell us about yourself"
+        value={formData.bio}
+        onChange={handleChange}
+        name="bio"
+      />
+      <InputField
+        id="avatarUrl"
+        label="Avatar URL"
+        type="url"
+        placeholder="https://example.com/avatar.jpg"
+        value={formData.avatarUrl}
+        onChange={handleChange}
+        name="avatarUrl"
+      />
+      <InputField
+        id="avatarAlt"
+        label="Avatar Alt Text"
+        type="text"
+        placeholder="Describe your avatar"
+        value={formData.avatarAlt}
+        onChange={handleChange}
+        name="avatarAlt"
+      />
+      <InputField
+        id="bannerUrl"
+        label="Banner URL"
+        type="url"
+        placeholder="https://example.com/banner.jpg"
+        value={formData.bannerUrl}
+        onChange={handleChange}
+        name="bannerUrl"
+      />
+      <InputField
+        id="bannerAlt"
+        label="Banner Alt Text"
+        type="text"
+        placeholder="Describe your banner"
+        value={formData.bannerAlt}
+        onChange={handleChange}
+        name="bannerAlt"
       />
       <div className="mt-4">
         <label className="inline-flex items-center">

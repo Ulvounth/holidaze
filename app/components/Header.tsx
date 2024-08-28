@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../lib/authContext";
 
 const Header: React.FC = () => {
-  const { isLoggedIn, login, logout } = useAuth();
+  const { isLoggedIn, login, logout, user } = useAuth();
   const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
     null
   );
@@ -34,11 +34,13 @@ const Header: React.FC = () => {
         {isLoggedIn ? (
           <>
             <Link href="/createVenue">Create Venue</Link>
-            <Link href="/profile">
-              <button className="mr-4 p-2 border border-gray-300 rounded">
-                Profile
-              </button>
-            </Link>
+            {user?.name && (
+              <Link href={`/profile/${user.name}`}>
+                <button className="mr-4 p-2 border border-gray-300 rounded">
+                  Profile
+                </button>
+              </Link>
+            )}
             <button
               onClick={handleLogout}
               className="p-2 bg-red-500 text-white rounded"
@@ -64,7 +66,10 @@ const Header: React.FC = () => {
         )}
       </div>
       <Modal isOpen={activeModal === "login"} onClose={closeModal}>
-        <LoginForm onClose={closeModal} onLoginSuccess={login} />
+        <LoginForm
+          onClose={closeModal}
+          onLoginSuccess={(user, token) => login(user, token)}
+        />
       </Modal>
       <Modal isOpen={activeModal === "register"} onClose={closeModal}>
         <RegisterForm onClose={closeModal} />

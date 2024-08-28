@@ -5,13 +5,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import InputField from "../ui/InputField";
 
-const LoginForm = ({
-  onClose,
-  onLoginSuccess,
-}: {
+interface LoginFormProps {
   onClose: () => void;
-  onLoginSuccess: () => void;
-}) => {
+  onLoginSuccess: (
+    user: { name: string; email: string; avatarUrl?: string },
+    token: string
+  ) => void; // Update here
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -38,6 +40,15 @@ const LoginForm = ({
         throw new Error(errorMessage);
       }
 
+      // Extract user data and token
+      const user = {
+        name: data.data.name,
+        email: data.data.email,
+        avatarUrl: data.data.avatar?.url, // Optional chaining
+      };
+
+      const token = data.data.accessToken; // Assuming accessToken is returned
+
       // Show success toast
       toast({
         title: "Login successful!",
@@ -46,8 +57,8 @@ const LoginForm = ({
         isClosable: true,
       });
 
-      // Notify parent component of successful login
-      onLoginSuccess();
+      // Notify parent component of successful login with user data and token
+      onLoginSuccess(user, token);
 
       // Redirect to the homepage
       router.push("/");
