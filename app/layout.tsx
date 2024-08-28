@@ -15,19 +15,31 @@ export const metadata = {
   description: "Book your dream holiday at amazing venues",
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
   const cookieStore = cookies();
-  const token = cookieStore.get("accessToken");
+  const token = cookieStore.get("accessToken")?.value;
 
-  // Determine if the user is logged in based on the token
-  const isLoggedIn = !!token;
+  // Safely parse the user cookie if it exists
+  let user = null;
+  const userCookie = cookieStore.get("user")?.value;
+
+  if (userCookie) {
+    try {
+      user = JSON.parse(userCookie);
+    } catch (error) {
+      console.error("Failed to parse user cookie:", error);
+      user = null;
+    }
+  }
+
+  const isLoggedIn = !!token && !!user;
 
   return (
     <html lang="en">
       <head>{/* Include other head elements here */}</head>
       <body>
         <ChakraProvider>
-          <AuthProvider isLoggedIn={isLoggedIn}>
+          <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>
             <Header />
             <main>{children}</main>
             <Footer />

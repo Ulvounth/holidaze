@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import cookie from "js-cookie";
 
 interface User {
@@ -30,20 +36,40 @@ export const AuthProvider = ({
   const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
   const [user, setUser] = useState<User | null>(initialUser);
 
+  // Hydrate user state from cookies if available
+  useEffect(() => {
+    const storedUser = cookie.get("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const login = (user: User, token: string) => {
-    // Added token argument
     setUser(user);
     setIsLoggedIn(true);
+
+    // Store the token and user info in cookies
     cookie.set("accessToken", token, {
-      // Store the actual token, not user.name
       path: "/", // Set the accessToken cookie (optional)
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    cookie.set("user", JSON.stringify(user), {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
     });
   };
 
   const logout = () => {
-    // Remove the token cookie
+    // Remove the token and user cookies
     cookie.remove("accessToken", {
       path: "/", // Ensure the path matches the path where the cookie was set
+    });
+    cookie.remove("user", {
+      path: "/",
     });
     setIsLoggedIn(false);
     setUser(null); // Clear the user state
