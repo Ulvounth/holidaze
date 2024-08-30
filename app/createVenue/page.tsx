@@ -1,4 +1,3 @@
-// pages/create-venue.tsx
 import React from "react";
 import VenueForm from "../components/venue/VenueForm";
 
