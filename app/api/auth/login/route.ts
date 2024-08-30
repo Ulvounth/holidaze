@@ -26,8 +26,11 @@ export async function POST(req: NextRequest) {
     const result = await response.json();
 
     if (!response.ok) {
+      // Capture and return a detailed error message from the API response
+      const errorMessage =
+        result.errors?.[0]?.message || result.message || "Login failed";
       return NextResponse.json(
-        { error: result.message || "Login failed" },
+        { error: errorMessage },
         { status: response.status }
       );
     }
@@ -47,11 +50,13 @@ export async function POST(req: NextRequest) {
 
     // Return the successful response with user data
     return NextResponse.json({ data: result.data });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in POST /api/auth/login:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+
+    // Provide a fallback error message
+    const errorMessage =
+      error.message || "An unexpected error occurred during login.";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

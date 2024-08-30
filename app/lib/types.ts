@@ -49,3 +49,14 @@ export interface RegisterRequestBody {
   };
   venueManager?: boolean;
 }
+
+export interface ProfileData {
+  name: string;
+  email: string;
+  bio?: string;
+  avatar?: { url: string; alt: string };
+  banner?: { url: string; alt: string };
+  bookings?: Array<any>;
+  venues?: Array<any>;
+  venueManager?: boolean;
+}

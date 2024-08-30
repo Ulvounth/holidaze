@@ -1,16 +1,6 @@
 import Image from "next/image";
 import { cookies } from "next/headers";
-
-interface ProfileData {
-  name: string;
-  email: string;
-  bio?: string;
-  avatar?: { url: string; alt: string };
-  banner?: { url: string; alt: string };
-  bookings?: Array<any>;
-  venues?: Array<any>;
-  venueManager?: boolean;
-}
+import { ProfileData } from "@/app/lib/types";
 
 async function fetchProfileData(
   name: string,
