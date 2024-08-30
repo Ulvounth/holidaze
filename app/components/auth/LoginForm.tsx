@@ -44,18 +44,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       const user = {
         name: data.data.name,
         email: data.data.email,
-        avatarUrl: data.data.avatar?.url, // Optional chaining
+        avatarUrl: data.data.avatar?.url,
+        venueManager: data.data.venueManager, // Ensure this is correctly set
       };
 
-      const token = data.data.accessToken; // Assuming accessToken is returned
-
-      // Show success toast
-      toast({
-        title: "Login successful!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      const token = data.data.accessToken;
 
       // Notify parent component of successful login with user data and token
       onLoginSuccess(user, token);
@@ -64,7 +57,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       router.push("/");
       onClose();
     } catch (err: any) {
-      // Handle error and show error toast
       setError(err.message);
       toast({
         title: "Login failed",

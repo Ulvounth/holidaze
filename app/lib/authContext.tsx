@@ -12,7 +12,8 @@ import cookie from "js-cookie";
 interface User {
   name: string;
   email: string;
-  avatarUrl?: string; // Include additional user properties as needed
+  avatarUrl?: string;
+  venueManager: boolean; // Indicates if the user is a venue manager
 }
 
 interface AuthContextProps {
