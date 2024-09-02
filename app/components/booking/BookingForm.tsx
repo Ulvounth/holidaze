@@ -1,16 +1,20 @@
-// app/components/BookingForm.tsx
-
 "use client";
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { createBooking } from "@/app/lib/services/booking/createBooking";
 
 type BookingFormProps = {
   venueId: string;
   price: number;
+  maxGuests: number;
 };
 
-export default function BookingForm({ venueId, price }: BookingFormProps) {
+export default function BookingForm({
+  venueId,
+  price,
+  maxGuests,
+}: BookingFormProps) {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [guests, setGuests] = useState(1);
@@ -31,23 +35,14 @@ export default function BookingForm({ venueId, price }: BookingFormProps) {
     }
 
     try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          venueId,
-          dateFrom: new Date(checkInDate).toISOString(),
-          dateTo: new Date(checkOutDate).toISOString(),
-          guests,
-        }),
-      });
+      const bookingData = {
+        venueId,
+        dateFrom: new Date(checkInDate).toISOString(),
+        dateTo: new Date(checkOutDate).toISOString(),
+        guests,
+      };
 
-      if (!response.ok) {
-        throw new Error("Failed to book the venue. Please try again.");
-      }
-
+      const result = await createBooking(bookingData);
       toast({
         title: "Booking Confirmed",
         description: "Your booking has been successfully created.",
@@ -69,8 +64,15 @@ export default function BookingForm({ venueId, price }: BookingFormProps) {
   const calculateTotalPrice = () => {
     const dateFrom = new Date(checkInDate);
     const dateTo = new Date(checkOutDate);
+
+    // Calculate the number of days between check-in and check-out dates
     const days = (dateTo.getTime() - dateFrom.getTime()) / (1000 * 3600 * 24);
-    return price * (days || 1); // Ensure a minimum of 1 day is calculated
+
+    // If dates are invalid or the difference is less than 1 day, default to 1 day
+    const validDays = days >= 1 ? days : 1;
+
+    // Return the total price
+    return price * validDays;
   };
 
   return (
@@ -101,8 +103,9 @@ export default function BookingForm({ venueId, price }: BookingFormProps) {
           value={guests}
           onChange={(e) => setGuests(parseInt(e.target.value))}
           className="w-full px-3 py-2 border rounded"
+          required
         >
-          {Array.from({ length: 10 }, (_, i) => (
+          {Array.from({ length: maxGuests }, (_, i) => (
             <option key={i + 1} value={i + 1}>
               {i + 1} guest{i + 1 > 1 ? "s" : ""}
             </option>
@@ -112,10 +115,15 @@ export default function BookingForm({ venueId, price }: BookingFormProps) {
       <div className="mb-4">
         <div className="text-lg">
           ${price} x{" "}
-          {checkInDate && checkOutDate ? calculateTotalPrice() : "..."} nights
+          {checkInDate && checkOutDate
+            ? (new Date(checkOutDate).getTime() -
+                new Date(checkInDate).getTime()) /
+              (1000 * 3600 * 24)
+            : 0}{" "}
+          nights
         </div>
         <div className="text-2xl font-bold">
-          Total: ${calculateTotalPrice()}
+          Total: ${checkInDate && checkOutDate ? calculateTotalPrice() : "0"}
         </div>
       </div>
       <button

@@ -39,6 +39,7 @@ export interface Venue {
   location: Location;
   meta: Meta;
   owner: User;
+  bookings?: Booking[];
 }
 
 export interface RegisterRequestBody {
@@ -66,4 +67,13 @@ export interface ProfileData {
   bookings?: Array<any>;
   venues?: Array<any>;
   venueManager?: boolean;
+}
+
+export interface Booking {
+  id: string;
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
+  created: string;
+  updated: string;
 }

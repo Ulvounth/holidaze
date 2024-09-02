@@ -22,6 +22,24 @@ footer {
   margin-top: auto; /* Pushes the footer to the bottom */
 }
 
+.custom-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+}
+
+.booked {
+  background-color: #ffdddd !important; /* Light red background for booked dates */
+  color: #ff0000 !important; /* Red text for booked dates */
+}
+
+.booked.react-calendar__tile {
+  pointer-events: none; /* Ensure booked dates are not clickable */
+}
+
 @media (max-width: 768px) {
   /* Adjust layout for mobile screens */
   footer {

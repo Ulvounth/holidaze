@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import BookingForm from "@/app/components/booking/BookingForm";
 import VenueMap from "@/app/lib/services/venue/VenueMap";
+import BookingCalendar from "@/app/components/booking/BookingCalendar";
 
 type Props = {
   params: {
@@ -25,7 +26,6 @@ export default async function VenuePage({ params }: Props) {
       throw new Error("Venue not found");
     }
 
-    // Extract fields from venue object
     const {
       name,
       description,
@@ -36,18 +36,22 @@ export default async function VenuePage({ params }: Props) {
       meta,
       location,
       owner,
+      bookings = [],
     } = venue;
 
-    // Handle media - use a default image if media array is empty or undefined
     const imageUrl =
       media && media.length > 0 ? media[0].url : "/images/hero.jpg";
     const imageAlt = media && media.length > 0 ? media[0].alt : name;
+
+    const bookedDates = bookings.map((booking: any) => ({
+      from: new Date(booking.dateFrom),
+      to: new Date(booking.dateTo),
+    }));
 
     return (
       <div className="container mx-auto py-6 px-4 lg:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <h1 className="text-3xl font-bold mb-4">{name}</h1>
             <div className="relative w-full h-64 lg:h-96 mb-4 rounded overflow-hidden">
               <Image
                 src={imageUrl}
@@ -57,6 +61,7 @@ export default async function VenuePage({ params }: Props) {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
+            <h1 className="text-3xl font-bold mb-4">{name}</h1>
             <div className="flex items-center mb-4">
               <span className="text-yellow-500 text-lg mr-2">
                 {"★".repeat(rating)}
@@ -89,11 +94,18 @@ export default async function VenuePage({ params }: Props) {
                 {maxGuests} guests
               </span>
             </div>
+            <div className="w-full mt-6">
+              <BookingCalendar bookings={bookedDates} />
+            </div>
           </div>
           <div>
             <div className="bg-white p-4 shadow rounded mb-6">
               <div className="text-2xl font-bold mb-4">${price} / night</div>
-              <BookingForm venueId={params.id} price={price} />
+              <BookingForm
+                venueId={params.id}
+                price={price}
+                maxGuests={maxGuests}
+              />
             </div>
             <div className="bg-white p-4 shadow rounded mb-6">
               <div className="flex items-center">
