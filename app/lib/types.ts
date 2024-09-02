@@ -14,6 +14,12 @@ export interface Location {
   lng: number;
 }
 
+export interface User {
+  name: string;
+  email: string;
+  avatar: Media;
+}
+
 export interface Meta {
   wifi: boolean;
   parking: boolean;
@@ -32,6 +38,7 @@ export interface Venue {
   rating: number;
   location: Location;
   meta: Meta;
+  owner: User;
 }
 
 export interface RegisterRequestBody {
