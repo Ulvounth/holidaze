@@ -1,7 +1,20 @@
 "use client";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+// Define custom icon with shadow
+const customIcon = L.icon({
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41], // Size of the icon
+  iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
+  popupAnchor: [1, -34], // Point from which the popup should open relative to the iconAnchor
+  shadowSize: [41, 41], // Size of the shadow
+});
 
 type VenueMapProps = {
   lat: number | null;
@@ -28,7 +41,7 @@ export default function VenueMap({ lat, lng, name }: VenueMapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {lat && lng && lat !== 0 && lng !== 0 && (
-        <Marker position={[lat, lng]}>
+        <Marker position={[lat, lng]} icon={customIcon}>
           <Popup>{name}</Popup>
         </Marker>
       )}

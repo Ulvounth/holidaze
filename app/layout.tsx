@@ -37,11 +37,11 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <head>{/* Include other head elements here */}</head>
-      <body>
+      <body className="flex flex-col min-h-screen">
         <ChakraProvider>
           <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>
             <Header />
-            <main>{children}</main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </AuthProvider>
         </ChakraProvider>
