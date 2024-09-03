@@ -30,25 +30,26 @@ export default function BookingForm({
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
       return;
     }
 
     try {
-      const bookingData = {
+      await createBooking({
         venueId,
         dateFrom: new Date(checkInDate).toISOString(),
         dateTo: new Date(checkOutDate).toISOString(),
         guests,
-      };
+      });
 
-      const result = await createBooking(bookingData);
       toast({
         title: "Booking Confirmed",
         description: "Your booking has been successfully created.",
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     } catch (error: any) {
       toast({
@@ -57,6 +58,7 @@ export default function BookingForm({
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     }
   };

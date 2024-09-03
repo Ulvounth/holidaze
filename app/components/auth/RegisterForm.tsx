@@ -109,6 +109,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
 
       // Redirect to the homepage or other desired page after successful registration
@@ -124,6 +125,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     }
   };

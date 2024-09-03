@@ -63,6 +63,7 @@ const VenueForm = () => {
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     } catch (error: any) {
       console.error("Error creating venue:", error);
@@ -77,6 +78,7 @@ const VenueForm = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     }
   };

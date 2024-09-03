@@ -1,8 +1,6 @@
-// services/bookings/createBooking.ts
 import { API_BASE_URL } from "../../constants";
 import { createAuthHeaders } from "../../createAuthHeaders";
 
-// Define an interface for booking data to improve type safety
 interface BookingData {
   dateFrom: string;
   dateTo: string;
@@ -12,7 +10,6 @@ interface BookingData {
 
 export const createBooking = async (bookingData: BookingData) => {
   try {
-    // Use the createAuthHeaders function to get the headers
     const headers = await createAuthHeaders();
 
     console.log("Sending Booking Data:", JSON.stringify(bookingData, null, 2));
@@ -37,8 +34,18 @@ export const createBooking = async (bookingData: BookingData) => {
 
     return result;
   } catch (error) {
-    // Handle different types of errors explicitly if possible
-    console.error("Error creating booking:", error);
-    throw error;
+    if (error instanceof Error) {
+      if (error.message.includes("No access token found")) {
+        throw new Error("Please login or register to book a venue.");
+      } else {
+        console.error("Error creating booking:", error);
+        throw new Error(
+          error.message || "An unexpected error occurred. Please try again."
+        );
+      }
+    } else {
+      console.error("An unknown error occurred:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
   }
 };
