@@ -11,10 +11,17 @@ export const fetchVenueById = async (id: string): Promise<Venue | null> => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch venue");
+      console.error(`API error: ${response.status} - ${response.statusText}`);
+      return null;
     }
 
     const data = await response.json();
+
+    if (!data || !data.data) {
+      console.error(`Unexpected API response structure:`, data);
+      return null;
+    }
+
     return data.data as Venue; // Ensure we're extracting the 'data' property
   } catch (error) {
     console.error(`Error fetching venue with ID ${id}:`, error);

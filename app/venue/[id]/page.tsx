@@ -57,6 +57,7 @@ export default async function VenuePage({ params }: Props) {
                 src={imageUrl}
                 alt={imageAlt}
                 fill
+                priority // Add this line to prioritize loading this image
                 className="object-cover rounded"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />

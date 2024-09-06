@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { createBooking } from "@/app/lib/services/booking/createBooking";
+import DateRangePicker from "./DateRangePicker";
 
 type BookingFormProps = {
   venueId: string;
@@ -15,8 +16,8 @@ export default function BookingForm({
   price,
   maxGuests,
 }: BookingFormProps) {
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
+  const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
+  const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
   const [guests, setGuests] = useState(1);
   const toast = useToast();
 
@@ -38,8 +39,8 @@ export default function BookingForm({
     try {
       await createBooking({
         venueId,
-        dateFrom: new Date(checkInDate).toISOString(),
-        dateTo: new Date(checkOutDate).toISOString(),
+        dateFrom: checkInDate.toISOString(),
+        dateTo: checkOutDate.toISOString(),
         guests,
       });
 
@@ -64,41 +65,20 @@ export default function BookingForm({
   };
 
   const calculateTotalPrice = () => {
-    const dateFrom = new Date(checkInDate);
-    const dateTo = new Date(checkOutDate);
-
-    // Calculate the number of days between check-in and check-out dates
-    const days = (dateTo.getTime() - dateFrom.getTime()) / (1000 * 3600 * 24);
-
-    // If dates are invalid or the difference is less than 1 day, default to 1 day
-    const validDays = days >= 1 ? days : 1;
-
-    // Return the total price
-    return price * validDays;
+    if (!checkInDate || !checkOutDate) return 0;
+    const days =
+      (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+    return price * (days >= 1 ? days : 1);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label className="block text-gray-700">Check-in</label>
-        <input
-          type="date"
-          value={checkInDate}
-          onChange={(e) => setCheckInDate(e.target.value)}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Check-out</label>
-        <input
-          type="date"
-          value={checkOutDate}
-          onChange={(e) => setCheckOutDate(e.target.value)}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
+      <DateRangePicker
+        checkInDate={checkInDate}
+        checkOutDate={checkOutDate}
+        setCheckInDate={setCheckInDate}
+        setCheckOutDate={setCheckOutDate}
+      />
       <div className="mb-4">
         <label className="block text-gray-700">Guests</label>
         <select
@@ -116,16 +96,11 @@ export default function BookingForm({
       </div>
       <div className="mb-4">
         <div className="text-lg">
-          ${price} x{" "}
-          {checkInDate && checkOutDate
-            ? (new Date(checkOutDate).getTime() -
-                new Date(checkInDate).getTime()) /
-              (1000 * 3600 * 24)
-            : 0}{" "}
+          ${price} x {checkInDate && checkOutDate ? calculateTotalPrice() : 0}{" "}
           nights
         </div>
         <div className="text-2xl font-bold">
-          Total: ${checkInDate && checkOutDate ? calculateTotalPrice() : "0"}
+          Total: ${calculateTotalPrice()}
         </div>
       </div>
       <button
