@@ -76,4 +76,17 @@ export interface Booking {
   guests: number;
   created: string;
   updated: string;
+  venue: Venue;
+}
+
+export interface Avatar {
+  url: string;
+  alt: string;
+}
+
+export interface ProfileUpdateData {
+  bio?: string;
+  avatar?: Avatar;
+  banner?: Avatar;
+  venueManager?: boolean;
 }

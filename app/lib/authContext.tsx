@@ -13,7 +13,7 @@ interface User {
   name: string;
   email: string;
   avatarUrl?: string;
-  venueManager: boolean; // Indicates if the user is a venue manager
+  venueManager?: boolean; // Indicates if the user is a venue manager
 }
 
 interface AuthContextProps {
