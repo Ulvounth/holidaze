@@ -45,7 +45,7 @@ const Header: React.FC = () => {
               onClick={handleLogout}
               className="p-2 bg-red-500 text-white rounded"
             >
-              Logout
+              Log out
             </button>
           </>
         ) : (

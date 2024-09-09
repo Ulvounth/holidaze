@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -8,23 +9,33 @@ type BookingCalendarProps = {
 };
 
 const BookingCalendar = ({ bookings }: BookingCalendarProps) => {
+  const [hydrated, setHydrated] = useState(false);
+
+  // Ensure the component is hydrated before rendering the calendar
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  // Convert Date objects to timestamps for consistent comparison
+  const isDateBooked = (date: Date) => {
+    const time = date.getTime();
+    return bookings.some(
+      (booking) =>
+        time >= new Date(booking.from).getTime() &&
+        time <= new Date(booking.to).getTime()
+    );
+  };
+
+  if (!hydrated) {
+    // Avoid rendering on the server to prevent hydration mismatch
+    return null;
+  }
+
   return (
-    <div className="w-full bg-white p-4 shadow rounded mt-6">
-      <div className="text-lg font-bold mb-4">Available Dates</div>
+    <div className="w-full bg-white p-4 shadow-md rounded-lg mt-6">
+      <div className="text-xl font-semibold mb-4">Booking Availability</div>
       <Calendar
-        tileDisabled={({ date }) =>
-          bookings.some((booking) => date >= booking.from && date <= booking.to)
-        }
-        tileClassName={({ date }) => {
-          if (
-            bookings.some(
-              (booking) => date >= booking.from && date <= booking.to
-            )
-          ) {
-            return "booked"; // Apply a class for booked dates
-          }
-          return "";
-        }}
+        tileDisabled={({ date }) => isDateBooked(date)}
         className="custom-calendar"
       />
     </div>

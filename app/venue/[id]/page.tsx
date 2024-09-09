@@ -2,8 +2,8 @@ import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
 import Image from "next/image";
 import { Metadata } from "next";
 import BookingForm from "@/app/components/booking/BookingForm";
-import VenueMap from "@/app/lib/services/venue/VenueMap";
 import BookingCalendar from "@/app/components/booking/BookingCalendar";
+import { LocationMap } from "@/app/components/venue/LocationMap";
 
 type Props = {
   params: {
@@ -43,6 +43,7 @@ export default async function VenuePage({ params }: Props) {
       media && media.length > 0 ? media[0].url : "/images/hero.jpg";
     const imageAlt = media && media.length > 0 ? media[0].alt : name;
 
+    // Keep the bookings array in the Date format for the calendar
     const bookedDates = bookings.map((booking: any) => ({
       from: new Date(booking.dateFrom),
       to: new Date(booking.dateTo),
@@ -57,7 +58,7 @@ export default async function VenuePage({ params }: Props) {
                 src={imageUrl}
                 alt={imageAlt}
                 fill
-                priority // Add this line to prioritize loading this image
+                priority
                 className="object-cover rounded"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -129,11 +130,7 @@ export default async function VenuePage({ params }: Props) {
                 {location.city}, {location.country}
               </div>
               <div className="mt-4">
-                <VenueMap
-                  lat={location.lat || null}
-                  lng={location.lng || null}
-                  name={name}
-                />
+                <LocationMap location={location} />
               </div>
             </div>
           </div>
