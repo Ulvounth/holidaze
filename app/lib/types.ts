@@ -15,6 +15,7 @@ export interface Location {
 }
 
 export interface User {
+  id?: string; // Add id here
   name: string;
   email: string;
   avatar: Media;
@@ -59,6 +60,7 @@ export interface RegisterRequestBody {
 }
 
 export interface ProfileData {
+  id?: string; // Add id here if needed
   name: string;
   email: string;
   bio?: string;

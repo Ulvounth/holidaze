@@ -55,7 +55,7 @@ const VenueForm = () => {
 
     try {
       const data = await createVenue(formattedData);
-      console.log("Venue created successfully:", data);
+
       // Show success toast
       toast({
         title: "Venue created.",

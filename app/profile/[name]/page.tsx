@@ -2,6 +2,8 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import fetchProfileData from "@/app/lib/services/profile/fetchProfile";
 import Tabs from "@/app/components/profile/Tabs";
+import DeleteVenueButton from "@/app/components/venue/DeleteVenue";
+import UpdateVenueForm from "@/app/components/venue/UpdateVenue";
 
 async function ProfilePage({ params }: { params: { name: string } }) {
   const { name } = params;
@@ -24,9 +26,11 @@ async function ProfilePage({ params }: { params: { name: string } }) {
     );
   }
 
+  // Add a fallback for venues in case it's undefined
+  const venues = profileData.venues || [];
+
   return (
     <div className="relative w-full">
-      {/* Full-width banner */}
       {profileData.banner && (
         <div className="relative w-full h-64 md:h-80 bg-gray-200">
           <Image
@@ -36,8 +40,6 @@ async function ProfilePage({ params }: { params: { name: string } }) {
             className="object-cover"
             priority
           />
-
-          {/* Avatar */}
           <div className="absolute bottom-[-75px] left-1/2 transform -translate-x-1/2">
             <Image
               src={profileData.avatar?.url || "/default-avatar.png"}
@@ -50,7 +52,6 @@ async function ProfilePage({ params }: { params: { name: string } }) {
         </div>
       )}
 
-      {/* Constrained width container for profile info and tabs */}
       <div className="container mx-auto px-4 pt-28 pb-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold">{profileData.name}</h1>
@@ -60,12 +61,28 @@ async function ProfilePage({ params }: { params: { name: string } }) {
           )}
         </div>
 
-        {/* Pass data to Tabs */}
+        {/* Show Delete and Update buttons for each venue */}
         <Tabs
           profileData={profileData}
           bookings={profileData.bookings || []}
-          venues={profileData.venues || []}
+          venues={venues}
         />
+        {venues.map((venue) => (
+          <div key={venue.id} className="mt-6">
+            <h3>{venue.name}</h3>
+
+            <div className="flex gap-4">
+              {/* Render the delete button */}
+              <DeleteVenueButton
+                venueId={venue.id}
+                ownerId={profileData.email}
+              />
+
+              {/* Render the update form */}
+              <UpdateVenueForm venue={venue} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
