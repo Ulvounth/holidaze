@@ -9,6 +9,7 @@ export default function Settings({ profile }: { profile: ProfileData }) {
         name={profile.name}
         currentAvatarUrl={profile.avatar?.url || "/default-avatar.png"}
         currentBio={profile.bio || ""}
+        currentBannerUrl={profile.banner?.url || "/default-banner.png"} // Pass banner URL
       />
     </div>
   );
