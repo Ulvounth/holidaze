@@ -5,9 +5,16 @@ import { useToast } from "@chakra-ui/react";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
+import { useRouter } from "next/navigation";
+import { VenueFormData } from "@/app/lib/types"; // Import the VenueFormData type
+
+// Define the form data type for better type safety
+type VenueForm = {
+  VenueFormData: VenueFormData;
+};
 
 const VenueForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<VenueFormData>({
     name: "",
     description: "",
     mediaUrl: "",
@@ -29,7 +36,9 @@ const VenueForm = () => {
   });
 
   const toast = useToast();
+  const router = useRouter(); // Router for redirect
 
+  // Handle change in input fields
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -48,6 +57,7 @@ const VenueForm = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,6 +75,9 @@ const VenueForm = () => {
         isClosable: true,
         position: "top",
       });
+
+      // Redirect to the profile page or venue details page after success
+      router.push(`/`);
     } catch (error: any) {
       console.error("Error creating venue:", error);
 

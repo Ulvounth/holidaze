@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MyBookings from "../booking/MyBookings";
-import MyVenues from "../venue/MyVenues";
+import MyVenues from "../venue/MyVenues"; // Server-side component for rendering venues
 import Settings from "./Settings";
 import { ProfileData, Booking, Venue } from "@/app/lib/types";
 
@@ -52,7 +52,7 @@ export default function Tabs({
               : "bg-gray-300 text-gray-700"
           }`}
         >
-          Settings
+          Edit Profile
         </button>
       </div>
 

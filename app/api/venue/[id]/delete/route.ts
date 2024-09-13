@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers"; // Import cookies helper
+import { cookies } from "next/headers";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
 import { deleteVenueById } from "@/app/lib/services/venue/deleteVenueById";
 
-// Named export for DELETE method
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
@@ -44,7 +43,8 @@ export async function DELETE(
 
     await deleteVenueById(venueId, headers); // Delete venue
 
-    return NextResponse.json({}, { status: 204 });
+    // Return a proper 204 No Content response with no body
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting venue:", error);
     return NextResponse.json(

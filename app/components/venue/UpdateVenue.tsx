@@ -1,37 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { Venue } from "@/app/lib/types";
 
 type UpdateVenueFormProps = {
-  venue: {
-    owner: any;
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    maxGuests: number;
-    media: { url: string; alt: string }[];
-    meta: {
-      wifi: boolean;
-      parking: boolean;
-      breakfast: boolean;
-      pets: boolean;
-    };
-    location: {
-      address: string;
-      city: string;
-      zip: string;
-      country: string;
-      continent: string;
-      lat: number;
-      lng: number;
-    };
-  };
+  venue: Venue;
+  onSuccess: () => void;
 };
 
-const UpdateVenueForm = ({ venue }: UpdateVenueFormProps) => {
+const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
   const [formData, setFormData] = useState({
     name: venue.name,
     description: venue.description,
@@ -43,13 +21,12 @@ const UpdateVenueForm = ({ venue }: UpdateVenueFormProps) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked; // Safely cast target to HTMLInputElement for checkbox
+    const checked = (e.target as HTMLInputElement).checked;
 
     setFormData((prevData) => ({
       ...prevData,
@@ -64,13 +41,13 @@ const UpdateVenueForm = ({ venue }: UpdateVenueFormProps) => {
     try {
       const response = await fetch(`/api/venue/${venue.id}/update`, {
         method: "PUT",
-        headers: await createAuthHeaders(), // Use createAuthHeaders for authentication
+        headers: await createAuthHeaders(),
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         alert("Venue updated successfully!");
-        router.push(`/`);
+        onSuccess();
       } else {
         const data = await response.json();
         alert(data.message || "Failed to update venue.");
@@ -87,7 +64,6 @@ const UpdateVenueForm = ({ venue }: UpdateVenueFormProps) => {
       onSubmit={handleSubmit}
       className="w-full p-4 bg-white shadow rounded"
     >
-      <h2 className="text-xl font-bold mb-4">Update Venue</h2>
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
           Name
@@ -145,8 +121,6 @@ const UpdateVenueForm = ({ venue }: UpdateVenueFormProps) => {
           className="w-full p-2 border border-gray-300 rounded"
         />
       </div>
-
-      {/* Add more fields for media, meta (wifi, parking, etc.), and location if needed */}
 
       <button
         type="submit"

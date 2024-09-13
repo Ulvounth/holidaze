@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Venue } from "@/app/lib/types";
+import EditVenueModalButton from "./EditVenueModalButton"; // Client-side modal button
 
 export default function MyVenues({ venues }: { venues: Venue[] }) {
   if (!venues || venues.length === 0) {
@@ -40,12 +41,14 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
               <p className="text-center">Max Guests: {venue.maxGuests}</p>
             </div>
             <div className="flex justify-between w-full mt-4 gap-2">
-              <button className="flex-grow p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+              <a
+                href={`/venue/${venue.id}`}
+                className="flex-grow p-2 bg-green-500 text-white rounded hover:bg-green-600 text-center"
+              >
                 View Venue
-              </button>
-              <button className="flex-grow p-2 bg-red-500 text-white rounded hover:bg-red-600">
-                Delete Venue
-              </button>
+              </a>
+              {/* Client-Side Modal Trigger Button */}
+              <EditVenueModalButton venue={venue} />
             </div>
           </div>
         ))}

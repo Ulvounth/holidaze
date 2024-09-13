@@ -92,3 +92,24 @@ export interface ProfileUpdateData {
   banner?: Avatar;
   venueManager?: boolean;
 }
+
+export interface VenueFormData {
+  name: string;
+  description: string;
+  mediaUrl: string;
+  mediaAlt: string;
+  price: number;
+  maxGuests: number;
+  rating: number;
+  wifi: boolean;
+  parking: boolean;
+  breakfast: boolean;
+  pets: boolean;
+  address: string;
+  city: string;
+  zip: string;
+  country: string;
+  continent: string;
+  lat: number;
+  lng: number;
+}

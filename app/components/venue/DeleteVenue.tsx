@@ -1,22 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { useAuth } from "@/app/lib/authContext";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 
 type DeleteVenueButtonProps = {
   venueId: string;
-  ownerId: string;
+  onClose: () => void; // Pass a callback to close the modal
 };
 
-const DeleteVenueButton = ({ venueId, ownerId }: DeleteVenueButtonProps) => {
+const DeleteVenueButton = ({ venueId, onClose }: DeleteVenueButtonProps) => {
   const { user } = useAuth(); // Get the user from your auth context
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   // Only render the delete button if the user is the owner of the venue
-  if (!user || user.email !== ownerId) {
+  if (!user) {
     return null;
   }
 
@@ -33,9 +32,9 @@ const DeleteVenueButton = ({ venueId, ownerId }: DeleteVenueButtonProps) => {
         headers: await createAuthHeaders(), // Use createAuthHeaders for authentication
       });
 
-      if (response.ok) {
+      if (response.status === 204) {
         alert("Venue deleted successfully!");
-        router.push("/");
+        onClose(); // Close the modal
       } else {
         const data = await response.json();
         alert(data.message || "Failed to delete venue.");

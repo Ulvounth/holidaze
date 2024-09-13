@@ -2,8 +2,6 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import fetchProfileData from "@/app/lib/services/profile/fetchProfile";
 import Tabs from "@/app/components/profile/Tabs";
-import DeleteVenueButton from "@/app/components/venue/DeleteVenue";
-import UpdateVenueForm from "@/app/components/venue/UpdateVenue";
 
 async function ProfilePage({ params }: { params: { name: string } }) {
   const { name } = params;
@@ -61,28 +59,12 @@ async function ProfilePage({ params }: { params: { name: string } }) {
           )}
         </div>
 
-        {/* Show Delete and Update buttons for each venue */}
+        {/* Show venue manager's venues */}
         <Tabs
           profileData={profileData}
           bookings={profileData.bookings || []}
           venues={venues}
         />
-        {venues.map((venue) => (
-          <div key={venue.id} className="mt-6">
-            <h3>{venue.name}</h3>
-
-            <div className="flex gap-4">
-              {/* Render the delete button */}
-              <DeleteVenueButton
-                venueId={venue.id}
-                ownerId={profileData.email}
-              />
-
-              {/* Render the update form */}
-              <UpdateVenueForm venue={venue} />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
