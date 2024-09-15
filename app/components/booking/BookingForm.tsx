@@ -9,12 +9,14 @@ type BookingFormProps = {
   venueId: string;
   price: number;
   maxGuests: number;
+  bookedDates: Array<{ from: Date; to: Date }>; // Add bookedDates prop
 };
 
 export default function BookingForm({
   venueId,
   price,
   maxGuests,
+  bookedDates, // Get bookedDates
 }: BookingFormProps) {
   const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
   const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
@@ -64,12 +66,21 @@ export default function BookingForm({
     }
   };
 
-  const calculateTotalPrice = () => {
+  // Function to calculate the number of nights
+  const calculateNights = () => {
     if (!checkInDate || !checkOutDate) return 0;
-    const days =
-      (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
-    return price * (days >= 1 ? days : 1);
+    const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1; // Ensure rounding up to the nearest day
   };
+
+  // Function to calculate the total price based on nights
+  const calculateTotalPrice = () => {
+    const nights = calculateNights();
+    return price * (nights >= 1 ? nights : 1);
+  };
+
+  const nights = calculateNights();
+  const totalPrice = calculateTotalPrice();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -78,6 +89,7 @@ export default function BookingForm({
         checkOutDate={checkOutDate}
         setCheckInDate={setCheckInDate}
         setCheckOutDate={setCheckOutDate}
+        bookedDates={bookedDates} // Pass bookedDates to DateRangePicker
       />
       <div className="mb-4">
         <label className="block text-gray-700">Guests</label>
@@ -94,15 +106,15 @@ export default function BookingForm({
           ))}
         </select>
       </div>
+
+      {/* Display Price per night and total price */}
       <div className="mb-4">
         <div className="text-lg">
-          ${price} x {checkInDate && checkOutDate ? calculateTotalPrice() : 0}{" "}
-          nights
+          ${price} x {nights} night{nights > 1 ? "s" : ""}
         </div>
-        <div className="text-2xl font-bold">
-          Total: ${calculateTotalPrice()}
-        </div>
+        <div className="text-2xl font-bold">Total: ${totalPrice}</div>
       </div>
+
       <button
         type="submit"
         className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600"

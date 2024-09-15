@@ -107,6 +107,7 @@ export default async function VenuePage({ params }: Props) {
                 venueId={params.id}
                 price={price}
                 maxGuests={maxGuests}
+                bookedDates={bookedDates}
               />
             </div>
             <div className="bg-white p-4 shadow rounded mb-6">
