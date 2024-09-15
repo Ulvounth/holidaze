@@ -29,10 +29,15 @@ export default function VenueBookings({
 
       {/* Collapsible section */}
       {isExpanded && (
-        <ul className="list-inside mt-2 bg-gray-50 p-4 rounded-md shadow">
+        <ul className="list-inside mt-2 bg-gray-50 p-4 rounded-md shadow ">
           {bookings.map((booking) => (
-            <li key={booking.id} className="mt-2">
-              <div className="font-semibold">Guests: {booking.guests}</div>
+            <li key={booking.id} className="mt-2 border-b-4">
+              <div className="mb-2">
+                <strong>Booked by:</strong>
+                <div>Name: {booking.customer?.name || "Unknown"}</div>
+                <div>Email: {booking.customer?.email || "Unknown"}</div>
+              </div>
+              <div>Guests: {booking.guests}</div>
               <div>
                 Check-in: {new Date(booking.dateFrom).toLocaleDateString()}
               </div>

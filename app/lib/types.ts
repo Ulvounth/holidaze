@@ -79,6 +79,7 @@ export interface Booking {
   created: string;
   updated: string;
   venue: Venue;
+  customer: User;
 }
 
 export interface Avatar {

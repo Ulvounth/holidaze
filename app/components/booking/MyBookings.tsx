@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Booking } from "@/app/lib/types";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
-import { useAuth } from "@/app/lib/authContext";
 
 export default function MyBookings({ bookings }: { bookings: Booking[] }) {
-  const { user } = useAuth();
   const router = useRouter(); // Initialize the router for navigation
+  const [bookingList, setBookingList] = useState(bookings); // Manage booking state
 
-  if (!bookings || bookings.length === 0) {
+  if (!bookingList || bookingList.length === 0) {
     return <div>No bookings found.</div>;
   }
 
@@ -24,7 +24,7 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
     if (!confirmCancel) return;
 
     try {
-      const headers = await createAuthHeaders();
+      const headers = await createAuthHeaders(); // Get auth headers if needed
 
       const response = await fetch(`/api/booking/${bookingId}/delete`, {
         method: "DELETE",
@@ -33,7 +33,11 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
 
       if (response.status === 204) {
         alert("Booking canceled successfully!");
-        router.push(`/profile/${user?.name}`); // Navigate back to the profile page
+
+        // Update the booking list after deleting the booking
+        setBookingList((prevBookings) =>
+          prevBookings.filter((booking) => booking.id !== bookingId)
+        );
       } else {
         const data = await response.json();
         alert(data.message || "Failed to cancel booking.");
@@ -47,7 +51,7 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
     <div>
       <h2 className="text-xl font-bold mb-4">My Bookings</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bookings.map((booking) => (
+        {bookingList.map((booking) => (
           <div
             key={booking.id}
             className="flex flex-col justify-between p-4 border-b bg-white shadow-md rounded-lg mb-4"
