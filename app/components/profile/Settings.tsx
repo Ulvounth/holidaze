@@ -7,9 +7,9 @@ export default function Settings({ profile }: { profile: ProfileData }) {
       <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
       <ProfileForm
         name={profile.name}
-        currentAvatarUrl={profile.avatar?.url || "/default-avatar.png"}
+        currentAvatarUrl={profile.avatar?.url || ""}
         currentBio={profile.bio || ""}
-        currentBannerUrl={profile.banner?.url || "/default-banner.png"} // Pass banner URL
+        currentBannerUrl={profile.banner?.url || ""}
       />
     </div>
   );

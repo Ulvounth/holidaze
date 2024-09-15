@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cookies } from "next/headers";
 import fetchProfileData from "@/app/lib/services/profile/fetchProfile";
+import { fetchProfileVenues } from "@/app/lib/services/profile/fetchProfileVenues"; // Add this import
 import Tabs from "@/app/components/profile/Tabs";
 
 async function ProfilePage({ params }: { params: { name: string } }) {
@@ -16,6 +17,7 @@ async function ProfilePage({ params }: { params: { name: string } }) {
     );
   }
 
+  // Fetch user profile data
   const profileData = await fetchProfileData(name, token);
 
   if (!profileData) {
@@ -24,8 +26,8 @@ async function ProfilePage({ params }: { params: { name: string } }) {
     );
   }
 
-  // Add a fallback for venues in case it's undefined
-  const venues = profileData.venues || [];
+  // Fetch venues managed by this profile, along with the bookings made on those venues
+  const venues = await fetchProfileVenues(name, token);
 
   return (
     <div className="relative w-full">
@@ -59,11 +61,11 @@ async function ProfilePage({ params }: { params: { name: string } }) {
           )}
         </div>
 
-        {/* Show venue manager's venues */}
+        {/* Show venues and bookings made on those venues */}
         <Tabs
           profileData={profileData}
           bookings={profileData.bookings || []}
-          venues={venues}
+          venues={venues} // Pass the fetched venues with bookings here
         />
       </div>
     </div>

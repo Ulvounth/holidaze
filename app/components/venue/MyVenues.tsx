@@ -24,7 +24,7 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
                   width={200}
                   height={150}
                   className="rounded w-full object-cover"
-                  priority={true} // Adding priority to improve loading performance
+                  priority={true}
                 />
               ) : (
                 <div className="w-full h-[150px] bg-gray-300 flex items-center justify-center rounded">
@@ -40,6 +40,8 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
               <p className="text-center">Price: ${venue.price}/night</p>
               <p className="text-center">Max Guests: {venue.maxGuests}</p>
             </div>
+
+            {/* View and Edit buttons */}
             <div className="flex justify-between w-full mt-4 gap-2">
               <a
                 href={`/venue/${venue.id}`}
@@ -47,9 +49,28 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
               >
                 View Venue
               </a>
-              {/* Client-Side Modal Trigger Button */}
               <EditVenueModalButton venue={venue} />
             </div>
+
+            {/* Bookings Section */}
+            {venue.bookings && venue.bookings.length > 0 ? (
+              <div className="mt-4">
+                <h4 className="text-md font-semibold">Bookings:</h4>
+                <ul className="list-disc list-inside mt-2">
+                  {venue.bookings.map((booking) => (
+                    <li key={booking.id}>
+                      {`Guests: ${booking.guests}, From: ${new Date(
+                        booking.dateFrom
+                      ).toLocaleDateString()} To: ${new Date(
+                        booking.dateTo
+                      ).toLocaleDateString()}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="mt-4 text-gray-500">No bookings yet.</p>
+            )}
           </div>
         ))}
       </div>
