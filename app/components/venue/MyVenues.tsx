@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Venue } from "@/app/lib/types";
 import EditVenueModalButton from "./EditVenueModalButton"; // Client-side modal button
+import VenueBookings from "./VenueBookings";
 
 export default function MyVenues({ venues }: { venues: Venue[] }) {
   if (!venues || venues.length === 0) {
@@ -54,20 +55,7 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
 
             {/* Bookings Section */}
             {venue.bookings && venue.bookings.length > 0 ? (
-              <div className="mt-4">
-                <h4 className="text-md font-semibold">Bookings:</h4>
-                <ul className="list-disc list-inside mt-2">
-                  {venue.bookings.map((booking) => (
-                    <li key={booking.id}>
-                      {`Guests: ${booking.guests}, From: ${new Date(
-                        booking.dateFrom
-                      ).toLocaleDateString()} To: ${new Date(
-                        booking.dateTo
-                      ).toLocaleDateString()}`}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <VenueBookings bookings={venue.bookings} venueId={venue.id} />
             ) : (
               <p className="mt-4 text-gray-500">No bookings yet.</p>
             )}

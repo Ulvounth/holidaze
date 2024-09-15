@@ -11,6 +11,7 @@ export async function fetchProfileVenues(
       Authorization: `Bearer ${token}`,
       "X-Noroff-API-Key": process.env.NEXT_PUBLIC_API_KEY || "",
     },
+    cache: "no-store", // Add no-store to prevent caching
   });
 
   if (!response.ok) {
