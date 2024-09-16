@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1>Holidaze</h1>
+<p>Project Exam 2 @ Noroff School of technology and digital media</p>
 
-## Getting Started
+## Description
 
-First, run the development server:
+This is my final project for Noroff, developed using Next.js, TypeScript, and Tailwind CSS. It is a holiday booking platform called Holidaze, where users can browse, book, and manage vacation rentals effortlessly.
+
+## Features
+
+- **Dynamic Venue Listings**: Fetches venue data from an API and displays it dynamically on the homepage, with clickable venue cards leading to detailed pages.
+- **Search Functionality**: Users can search for specific venues using a responsive search bar, filtering results dynamically as they type.
+- **Venue Details Pages**: Each venue has a dedicated page displaying images, descriptions, prices, reviews, and available dates.
+- **Booking System**: Registered users can book venues by selecting available dates from an interactive calendar, with real-time price calculation.
+- **User Account Management**: Registered users can update their profile, including avatar and bio, and manage their upcoming bookings.
+- **Venue Management for Managers**: Venue managers can create, update, or delete their venues, and view all bookings made for their managed venues.
+- **Responsive Design**: Ensures the website works seamlessly on different devices, providing a smooth user experience across all screen sizes.
+- **Authentication**: Users can register, log in, and log out using secure authentication, with role-based access for customers and venue managers.
+
+## Technologies Used
+
+- **Next.js**: React-based framework that enables server-side rendering and static site generation, providing improved performance, SEO, and flexibility for building modern web applications.
+- **TypeScript**: Adds static type checking to JavaScript, enhancing code quality and understandability.
+- **Tailwind**: Utility-first CSS framework that allows developers to quickly design responsive and custom user interfaces using predefined classes, enhancing both speed and design consistency.
+- **Netlify**: The project is deployed and hosted on Netlify, providing global distribution and high availability.
+
+
+
+## Running instructions
+
+### Installing
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/Ulvounth/holidaze.git
+```
+
+2. Install the dependencies:
+
+```
+npm install
+```
+
+### Running
+
+To run the app, run the following commands:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is deployed on Netlify. You can access it at [My Website](https://infnity-goods.netlify.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contact
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[My Linkedin](https://www.linkedin.com/in/andreas-ulvund-98066376/)
