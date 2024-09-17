@@ -1,4 +1,3 @@
-// app/lib/types.ts
 export interface Media {
   url: string;
   alt: string;
@@ -15,7 +14,7 @@ export interface Location {
 }
 
 export interface User {
-  id?: string; // Add id here
+  id?: string;
   name: string;
   email: string;
   avatar: Media;
@@ -60,7 +59,7 @@ export interface RegisterRequestBody {
 }
 
 export interface ProfileData {
-  id?: string; // Add id here if needed
+  id?: string;
   name: string;
   email: string;
   bio?: string;

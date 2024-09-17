@@ -22,7 +22,6 @@ export const updateProfile = async (
     }
 
     const result = await response.json();
-    console.log("Profile updated successfully:", result);
     return result;
   } catch (error) {
     console.error("Error updating profile:", error);
