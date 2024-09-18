@@ -6,9 +6,8 @@ import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
 import { useRouter } from "next/navigation";
-import { VenueFormData } from "@/app/lib/types"; // Import the VenueFormData type
+import { VenueFormData } from "@/app/lib/types";
 
-// Define the form data type for better type safety
 type VenueForm = {
   VenueFormData: VenueFormData;
 };
@@ -36,9 +35,8 @@ const VenueForm = () => {
   });
 
   const toast = useToast();
-  const router = useRouter(); // Router for redirect
+  const router = useRouter();
 
-  // Handle change in input fields
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -57,16 +55,14 @@ const VenueForm = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formattedData = formatVenueData(formData);
 
     try {
-      const data = await createVenue(formattedData);
+      await createVenue(formattedData);
 
-      // Show success toast
       toast({
         title: "Venue created.",
         description: "Your venue has been created successfully.",
@@ -76,7 +72,6 @@ const VenueForm = () => {
         position: "top",
       });
 
-      // Redirect to the profile page or venue details page after success
       router.push(`/`);
     } catch (error: any) {
       console.error("Error creating venue:", error);

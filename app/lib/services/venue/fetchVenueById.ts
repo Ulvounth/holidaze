@@ -6,7 +6,7 @@ export const fetchVenueById = async (id: string): Promise<Venue | null> => {
     const response = await fetch(
       `${API_BASE_URL}holidaze/venues/${id}?_owner=true&_bookings=true`,
       {
-        cache: "no-store", // Ensure fresh data on each request
+        cache: "no-store",
       }
     );
 
@@ -22,7 +22,7 @@ export const fetchVenueById = async (id: string): Promise<Venue | null> => {
       return null;
     }
 
-    return data.data as Venue; // Ensure we're extracting the 'data' property
+    return data.data as Venue;
   } catch (error) {
     console.error(`Error fetching venue with ID ${id}:`, error);
     return null;

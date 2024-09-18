@@ -12,7 +12,7 @@ interface InputFieldProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   name?: string;
-  required?: boolean; // Add required prop
+  required?: boolean;
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -23,7 +23,7 @@ const InputField: FC<InputFieldProps> = ({
   value,
   onChange,
   name,
-  required = false, // Default required to false
+  required = false,
 }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -36,8 +36,8 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        required={required} // Apply the required prop
+        className="my-2 block w-full p-2 border border-gray-300 rounded-md"
+        required={required}
       />
     ) : (
       <input
@@ -47,8 +47,8 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        required={required} // Apply the required prop
+        className="my-2 block w-full p-2 border border-gray-300 rounded-md"
+        required={required}
       />
     )}
   </div>

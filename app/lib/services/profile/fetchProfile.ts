@@ -18,5 +18,5 @@ export default async function fetchProfileData(
   }
 
   const result = await res.json();
-  return result.data; // Return only the data part
+  return result.data;
 }

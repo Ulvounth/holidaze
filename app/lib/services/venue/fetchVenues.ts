@@ -6,7 +6,7 @@ export const fetchVenues = async (): Promise<Venue[]> => {
   const response = await fetch(
     `${API_BASE_URL}holidaze/venues?_owner=true&_bookings=true`,
     {
-      cache: "no-store", // Ensure fresh data on each request
+      cache: "no-store",
     }
   );
 
@@ -15,5 +15,5 @@ export const fetchVenues = async (): Promise<Venue[]> => {
   }
 
   const data = await response.json();
-  return data.data; // Adjust this if your API returns data differently
+  return data.data;
 };
