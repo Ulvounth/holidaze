@@ -2,38 +2,38 @@
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { venueSchema, VenueFormSchema } from "@/app/lib/schemas/venueSchema";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
-import { useRouter } from "next/navigation";
-import { VenueFormData } from "@/app/lib/types";
-
-type VenueForm = {
-  VenueFormData: VenueFormData;
-};
 
 const VenueForm = () => {
-  const [formData, setFormData] = useState<VenueFormData>({
+  const [formData, setFormData] = useState<VenueFormSchema>({
     name: "",
     description: "",
-    mediaUrl: "",
-    mediaAlt: "",
+    media: [],
     price: 0,
     maxGuests: 0,
     rating: 0,
-    wifi: false,
-    parking: false,
-    breakfast: false,
-    pets: false,
-    address: "",
-    city: "",
-    zip: "",
-    country: "",
-    continent: "",
-    lat: 0,
-    lng: 0,
+    meta: {
+      wifi: false,
+      parking: false,
+      breakfast: false,
+      pets: false,
+    },
+    location: {
+      address: "",
+      city: "",
+      zip: "",
+      country: "",
+      continent: "",
+      lat: 0,
+      lng: 0,
+    },
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const toast = useToast();
   const router = useRouter();
 
@@ -57,6 +57,20 @@ const VenueForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+
+    // Validate form data using Zod schema
+    const validation = venueSchema.safeParse(formData);
+    if (!validation.success) {
+      const newErrors: Record<string, string> = {};
+      validation.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          newErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(newErrors);
+      return;
+    }
 
     const formattedData = formatVenueData(formData);
 
@@ -97,7 +111,11 @@ const VenueForm = () => {
       className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded-lg"
     >
       <h2 className="text-2xl font-semibold mb-6">Create a New Venue</h2>
-      <VenueFormFields formData={formData} handleChange={handleChange} />
+      <VenueFormFields
+        formData={formData}
+        handleChange={handleChange}
+        errors={errors}
+      />
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 px-4 rounded mt-4 hover:bg-blue-700 transition-colors"

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import validateRegistration from "@/app/lib/validateRegistration";
 import { RegisterRequestBody } from "@/app/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -14,20 +13,6 @@ export async function POST(req: NextRequest) {
       banner,
       venueManager,
     }: RegisterRequestBody = await req.json();
-
-    // Validate input data
-    const validationError = validateRegistration({
-      name,
-      email,
-      password,
-      bio,
-      avatar,
-      banner,
-    });
-
-    if (validationError) {
-      return NextResponse.json({ error: validationError }, { status: 400 });
-    }
 
     // Proceed with registration request
     const response = await fetch("https://v2.api.noroff.dev/auth/register", {

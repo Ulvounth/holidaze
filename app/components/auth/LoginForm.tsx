@@ -1,8 +1,8 @@
 "use client";
 
-import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { loginSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
 
 interface LoginFormProps {
@@ -10,18 +10,30 @@ interface LoginFormProps {
   onLoginSuccess: (
     user: { name: string; email: string; avatarUrl?: string },
     token: string
-  ) => void; // Update here
+  ) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const toast = useToast();
+  const [errors, setErrors] = useState<Record<string, string>>({}); // State for field errors
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate form data using Zod schema
+    const validationResult = loginSchema.safeParse({ email, password });
+    if (!validationResult.success) {
+      const newErrors: Record<string, string> = {};
+      validationResult.error.errors.forEach((err) => {
+        newErrors[err.path[0]] = err.message; // Store field-specific errors
+      });
+      setErrors(newErrors); // Set errors state
+      return;
+    }
+
+    setErrors({}); // Clear errors if validation passes
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -35,37 +47,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        const errorMessage =
-          data.errors?.[0]?.message || "Login failed. Please try again.";
-        throw new Error(errorMessage);
+        throw new Error(
+          data.errors?.[0]?.message || "Login failed. Please try again."
+        );
       }
 
-      // Extract user data and token
       const user = {
         name: data.data.name,
         email: data.data.email,
         avatarUrl: data.data.avatar?.url,
-        venueManager: data.data.venueManager, // Ensure this is correctly set
+        venueManager: data.data.venueManager,
       };
 
       const token = data.data.accessToken;
-
-      // Notify parent component of successful login with user data and token
       onLoginSuccess(user, token);
 
-      // Redirect to the homepage
       router.push("/");
       onClose();
-    } catch (err: any) {
-      setError(err.message);
-      toast({
-        title: "Login failed",
-        description: err.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "top",
-      });
+    } catch (error: any) {
+      setErrors({ general: error.message });
     }
   };
 
@@ -78,6 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         placeholder="email@example.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        error={errors.email} // Pass the error for this field
       />
       <InputField
         id="password"
@@ -86,8 +87,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         placeholder="Enter your password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        error={errors.password} // Pass the error for this field
       />
-      {error && <p className="text-red-500">{error}</p>}
+      {errors.general && <p className="text-red-500">{errors.general}</p>}
       <button type="submit" className="p-2 bg-pink-500 text-white rounded mt-4">
         Login
       </button>

@@ -13,6 +13,7 @@ interface InputFieldProps {
   ) => void;
   name?: string;
   required?: boolean;
+  error?: string;
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -24,8 +25,9 @@ const InputField: FC<InputFieldProps> = ({
   onChange,
   name,
   required = false,
+  error,
 }) => (
-  <div>
+  <div className="mb-4">
     <label htmlFor={id} className="block text-sm font-medium text-gray-700">
       {label}
     </label>
@@ -36,7 +38,9 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className="my-2 block w-full p-2 border border-gray-300 rounded-md"
+        className={`my-2 block w-full p-2 border rounded-md ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
         required={required}
       />
     ) : (
@@ -47,10 +51,14 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className="my-2 block w-full p-2 border border-gray-300 rounded-md"
+        className={`my-2 block w-full p-2 border rounded-md ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
         required={required}
       />
     )}
+
+    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
 
