@@ -1,4 +1,3 @@
-// services/profiles/updateProfile.ts
 import { API_BASE_URL } from "@/app/lib/constants";
 import { ProfileUpdateData } from "@/app/lib/types";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";

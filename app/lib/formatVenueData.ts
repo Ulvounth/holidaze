@@ -1,4 +1,3 @@
-// utils/formatVenueData.ts
 export const formatVenueData = (formData: Record<string, any>) => {
   return {
     name: formData.name,

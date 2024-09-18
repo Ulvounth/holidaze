@@ -1,4 +1,3 @@
-// app/lib/fetchVenues.ts
 import { Venue } from "../../types";
 import { API_BASE_URL } from "../../constants";
 

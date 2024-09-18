@@ -1,4 +1,3 @@
-// components/Hero.tsx
 import SearchBar from "./SearchBar";
 
 const Hero: React.FC = () => {
