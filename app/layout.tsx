@@ -27,7 +27,6 @@ export default async function Layout({ children }: LayoutProps) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  // Safely parse the user cookie if it exists
   let user = null;
   const userCookie = cookieStore.get("user")?.value;
 
@@ -44,7 +43,6 @@ export default async function Layout({ children }: LayoutProps) {
 
   return (
     <html lang="en" className={alkatra.variable}>
-      <head>{/* Include other head elements here */}</head>
       <body className={`font-alkatra flex flex-col min-h-screen`}>
         <ChakraProvider>
           <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>

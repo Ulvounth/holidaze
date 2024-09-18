@@ -40,7 +40,7 @@ export default async function VenuePage({ params }: Props) {
     } = venue;
 
     const imageUrl =
-      media && media.length > 0 ? media[0].url : "/images/hero.jpg";
+      media && media.length > 0 ? media[0].url : "/images/placeholder.webp";
     const imageAlt = media && media.length > 0 ? media[0].alt : name;
 
     // Keep the bookings array in the Date format for the calendar
@@ -112,19 +112,23 @@ export default async function VenuePage({ params }: Props) {
             </div>
             <div className="bg-white p-4 shadow rounded mb-6">
               <div className="flex items-center">
-                <Image
-                  src={owner.avatar.url}
-                  alt={owner.avatar.alt}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
+                <div className="relative w-10 h-10">
+                  <Image
+                    src={owner.avatar.url}
+                    alt={owner.avatar.alt}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    className="rounded-full"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40px"
+                  />
+                </div>
                 <div className="ml-4">
                   <div>{owner.name}</div>
                   <div className="text-sm text-gray-600">Owner</div>
                 </div>
               </div>
             </div>
+
             <div className="bg-white p-4 shadow rounded">
               <div className="text-lg font-bold mb-4">Location</div>
               <div className="text-sm text-gray-600">

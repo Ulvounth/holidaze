@@ -1,6 +1,5 @@
-// app/components/VenueCard.tsx
 import Link from "next/link";
-import Image from "next/image";
+import CustomImage from "./CustomImage"; // Import CustomImage component
 import { Venue } from "@/app/lib/types";
 
 interface VenueCardProps {
@@ -14,8 +13,8 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
       className="block bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
     >
       <div className="relative">
-        <Image
-          src={venue.media[0]?.url || "/images/hero.jpg"}
+        <CustomImage
+          src={venue.media[0]?.url || "/images/placeholder.webp"}
           alt={venue.media[0]?.alt || venue.name}
           width={500}
           height={300}
