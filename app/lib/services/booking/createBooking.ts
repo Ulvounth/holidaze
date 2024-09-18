@@ -12,8 +12,6 @@ export const createBooking = async (bookingData: BookingData) => {
   try {
     const headers = await createAuthHeaders();
 
-    console.log("Sending Booking Data:", JSON.stringify(bookingData, null, 2));
-
     const response = await fetch(
       `${API_BASE_URL}holidaze/bookings?_customer&_venue`,
       {
@@ -30,7 +28,6 @@ export const createBooking = async (bookingData: BookingData) => {
     }
 
     const result = await response.json();
-    console.log("Booking Created Successfully:", result);
 
     return result;
   } catch (error) {
