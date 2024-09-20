@@ -21,7 +21,7 @@ export default async function Home() {
           {venues.length > 0 ? (
             venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)
           ) : (
-            <p>There is no venues available.</p>
+            <p>No venues available.</p>
           )}
         </div>
       </div>
