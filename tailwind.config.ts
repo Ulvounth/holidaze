@@ -13,8 +13,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        alkatra: ["var(--font-alkatra)", "sans-serif"], // Add a fallback font
+      },
     },
   },
   plugins: [],
 };
+
 export default config;

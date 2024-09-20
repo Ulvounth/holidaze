@@ -1,16 +1,23 @@
+import SearchBar from "./SearchBar";
+
 const Hero: React.FC = () => {
-    return (
-      <section className="relative bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/images/hero.jpg)' }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
-          <h2 className="text-4xl mb-4">Secure your dream vacation at an unbeatable price here!</h2>
-          <div className="flex">
-            <input type="text" placeholder="Search location" className="p-2 rounded-l" />
-            <button className="p-2 bg-pink-500 rounded-r">Search</button>
-          </div>
+  return (
+    <section
+      className="relative bg-cover bg-center h-screen"
+      style={{ backgroundImage: "url(/images/hero.jpg)" }}
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">
+        {/* Responsive heading size */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
+          Secure your dream vacation at an unbeatable price here!
+        </h2>
+        {/* Responsive search bar container */}
+        <div className="w-full max-w-lg mx-auto">
+          <SearchBar className="w-full" />
         </div>
-      </section>
-    );
-  };
-  
-  export default Hero;
-  
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

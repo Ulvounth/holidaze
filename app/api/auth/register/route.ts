@@ -1,19 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { RegisterRequestBody } from "@/app/lib/types";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password, venueManager } = await req.json();
+    const {
+      name,
+      email,
+      password,
+      bio,
+      avatar,
+      banner,
+      venueManager,
+    }: RegisterRequestBody = await req.json();
 
+    // Proceed with registration request
     const response = await fetch("https://v2.api.noroff.dev/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "", // Include API Key
       },
       body: JSON.stringify({
         name,
         email,
         password,
+        bio,
+        avatar,
+        banner,
         venueManager,
       }),
     });
@@ -21,7 +35,13 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-      return NextResponse.json({ error: data }, { status: response.status });
+      // Improve error handling by checking for specific error messages from the API response
+      const errorMessage =
+        data.errors?.[0]?.message || data.message || "Registration failed";
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: response.status }
+      );
     }
 
     // Set the access token as an HTTP-only cookie
@@ -35,11 +55,13 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ data });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in POST /api/auth/register:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+
+    // Provide detailed error messages for common issues
+    const errorMessage =
+      error?.message || "An unexpected error occurred during registration.";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

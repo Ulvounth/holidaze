@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { useToast } from "@chakra-ui/react";
+import { registerSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
 
 const RegisterForm = ({ onClose }: { onClose: () => void }) => {
@@ -12,12 +14,35 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
     password: "",
     venueManager: false,
   });
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({}); // State for field errors
   const router = useRouter();
   const toast = useToast();
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setFormData({
+      ...formData,
+      [name]:
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validationResult = registerSchema.safeParse(formData);
+    if (!validationResult.success) {
+      const newErrors: Record<string, string> = {};
+      validationResult.error.errors.forEach((err) => {
+        newErrors[err.path[0]] = err.message;
+      });
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -31,31 +56,23 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(
+          data.errors?.[0]?.message || "Registration failed. Please try again."
+        );
       }
 
-      // Show success toast
       toast({
         title: "Registration successful!",
+        description: "You have registered successfully.",
         status: "success",
         duration: 5000,
         isClosable: true,
       });
 
-      // After successful registration, cookies are already set, so just redirect
       router.push("/");
       onClose();
-    } catch (err: any) {
-      setError(err.message);
-
-      // Show error toast
-      toast({
-        title: "Registration failed",
-        description: err.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+    } catch (error: any) {
+      setErrors({ general: error.message });
     }
   };
 
@@ -67,15 +84,19 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         type="text"
         placeholder="Your Name"
         value={formData.name}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        onChange={handleChange}
+        name="name"
+        error={errors.name} // Pass the error for this field
       />
       <InputField
         id="email"
         label="Email"
         type="email"
-        placeholder="email@example.com"
+        placeholder="email@stud.noroff.no"
         value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        onChange={handleChange}
+        name="email"
+        error={errors.email} // Pass the error for this field
       />
       <InputField
         id="password"
@@ -83,22 +104,23 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         type="password"
         placeholder="Enter your password"
         value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        onChange={handleChange}
+        name="password"
+        error={errors.password} // Pass the error for this field
       />
       <div className="mt-4">
         <label className="inline-flex items-center">
           <input
             type="checkbox"
+            name="venueManager"
             checked={formData.venueManager}
-            onChange={(e) =>
-              setFormData({ ...formData, venueManager: e.target.checked })
-            }
+            onChange={handleChange}
             className="form-checkbox"
           />
           <span className="ml-2 text-gray-700">Are you a venue manager?</span>
         </label>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      {errors.general && <p className="text-red-500">{errors.general}</p>}
       <button type="submit" className="p-2 bg-pink-500 text-white rounded mt-4">
         Register
       </button>

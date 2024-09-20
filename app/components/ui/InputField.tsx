@@ -1,4 +1,3 @@
-// app/ui/InputField.tsx
 "use client";
 
 import { FC } from "react";
@@ -9,7 +8,12 @@ interface InputFieldProps {
   type: string;
   placeholder: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  name?: string;
+  required?: boolean;
+  error?: string;
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -19,20 +23,42 @@ const InputField: FC<InputFieldProps> = ({
   placeholder,
   value,
   onChange,
+  name,
+  required = false,
+  error,
 }) => (
-  <div>
+  <div className="mb-4">
     <label htmlFor={id} className="block text-sm font-medium text-gray-700">
       {label}
     </label>
-    <input
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-      required
-    />
+    {type === "textarea" ? (
+      <textarea
+        id={id}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        name={name}
+        className={`my-2 block w-full p-2 border rounded-md ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
+        required={required}
+      />
+    ) : (
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        name={name}
+        className={`my-2 block w-full p-2 border rounded-md ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
+        required={required}
+      />
+    )}
+
+    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
 

@@ -1,35 +1,53 @@
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import Header from "./components/Header";
 import "./globals.css";
 import Footer from "./components/Footer";
 import { ReactNode } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./lib/authContext";
+import { Alkatra } from "next/font/google";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-export const metadata = {
+const alkatra = Alkatra({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-alkatra",
+});
+
+export const metadata: Metadata = {
   title: "Holidaze",
   description: "Book your dream holiday at amazing venues",
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
   const cookieStore = cookies();
-  const token = cookieStore.get("accessToken");
+  const token = cookieStore.get("accessToken")?.value;
 
-  // Determine if the user is logged in based on the token
-  const isLoggedIn = !!token;
+  let user = null;
+  const userCookie = cookieStore.get("user")?.value;
+
+  if (userCookie) {
+    try {
+      user = JSON.parse(userCookie);
+    } catch (error) {
+      console.error("Failed to parse user cookie:", error);
+      user = null;
+    }
+  }
+
+  const isLoggedIn = !!token && !!user;
 
   return (
-    <html lang="en">
-      <head>{/* Include other head elements here */}</head>
-      <body>
+    <html lang="en" className={alkatra.variable}>
+      <body className={`font-alkatra flex flex-col min-h-screen`}>
         <ChakraProvider>
-          <AuthProvider isLoggedIn={isLoggedIn}>
+          <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>
             <Header />
-            <main>{children}</main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </AuthProvider>
         </ChakraProvider>
