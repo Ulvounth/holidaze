@@ -6,11 +6,15 @@ const Hero: React.FC = () => {
       className="relative bg-cover bg-center h-screen"
       style={{ backgroundImage: "url(/images/hero.jpg)" }}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
-        <h2 className="text-4xl mb-4">
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">
+        {/* Responsive heading size */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
           Secure your dream vacation at an unbeatable price here!
         </h2>
-        <SearchBar className="w-full md:w-auto" />
+        {/* Responsive search bar container */}
+        <div className="w-full max-w-lg mx-auto">
+          <SearchBar className="w-full" />
+        </div>
       </div>
     </section>
   );

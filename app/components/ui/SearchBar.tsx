@@ -26,14 +26,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
   };
 
   return (
-    <div className={`flex items-center space-x-2 ${className || ""}`}>
+    <div
+      className={`flex flex-col lg:flex-row items-center gap-2 rounded ${
+        className || ""
+      }`}
+    >
+      {/* Search Input */}
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search location"
-        className="p-2 rounded-l bg-white text-black placeholder-gray-500 focus:outline-none"
+        className="sm:w-auto p-2 bg-white text-black placeholder-gray-500 focus:outline-none rounded"
       />
+      {/* Start Date Picker */}
       <DatePicker
         selected={startDate}
         onChange={(date) => setStartDate(date || undefined)}
@@ -41,8 +47,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         startDate={startDate}
         endDate={endDate}
         placeholderText="Start Date"
-        className="p-2 border text-black"
+        className="w-full sm:w-auto p-2 border text-black rounded"
       />
+      {/* End Date Picker */}
       <DatePicker
         selected={endDate}
         onChange={(date) => setEndDate(date || undefined)}
@@ -50,11 +57,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         startDate={startDate}
         endDate={endDate}
         placeholderText="End Date"
-        className="p-2 border text-black"
+        className="w-full sm:w-auto p-2 border text-black rounded"
       />
+      {/* Search Button */}
       <button
         onClick={handleSearch}
-        className="p-2 bg-pink-500 text-white rounded-r"
+        className="sm:w-auto p-2 bg-pink-500 text-white rounded sm:rounded-r"
       >
         Search
       </button>
