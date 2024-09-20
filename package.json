@@ -26,6 +26,7 @@
     "react-dom": "^18",
     "react-leaflet": "^4.2.1",
     "sanitize-html": "^2.13.0",
+    "sharp": "^0.33.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
