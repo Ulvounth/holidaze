@@ -9,6 +9,7 @@ interface CustomImageProps {
   width: number;
   height: number;
   className?: string;
+  loading?: "eager" | "lazy";
 }
 
 const CustomImage: React.FC<CustomImageProps> = ({
@@ -32,6 +33,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
       height={height}
       className={className}
       onError={handleImageError}
+      loading="lazy"
     />
   );
 };
