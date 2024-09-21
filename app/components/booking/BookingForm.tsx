@@ -9,14 +9,14 @@ type BookingFormProps = {
   venueId: string;
   price: number;
   maxGuests: number;
-  bookedDates: Array<{ from: Date; to: Date }>; // Add bookedDates prop
+  bookedDates: Array<{ from: Date; to: Date }>;
 };
 
 export default function BookingForm({
   venueId,
   price,
   maxGuests,
-  bookedDates, // Get bookedDates
+  bookedDates,
 }: BookingFormProps) {
   const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
   const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
@@ -66,14 +66,12 @@ export default function BookingForm({
     }
   };
 
-  // Function to calculate the number of nights
   const calculateNights = () => {
     if (!checkInDate || !checkOutDate) return 0;
     const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
-    return Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1; // Ensure rounding up to the nearest day
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
   };
 
-  // Function to calculate the total price based on nights
   const calculateTotalPrice = () => {
     const nights = calculateNights();
     return price * (nights >= 1 ? nights : 1);
@@ -89,7 +87,7 @@ export default function BookingForm({
         checkOutDate={checkOutDate}
         setCheckInDate={setCheckInDate}
         setCheckOutDate={setCheckOutDate}
-        bookedDates={bookedDates} // Pass bookedDates to DateRangePicker
+        bookedDates={bookedDates}
       />
       <div className="mb-4">
         <label className="block text-gray-700">Guests</label>
@@ -107,7 +105,6 @@ export default function BookingForm({
         </select>
       </div>
 
-      {/* Display Price per night and total price */}
       <div className="mb-4">
         <div className="text-lg">
           ${price} x {nights} night{nights > 1 ? "s" : ""}

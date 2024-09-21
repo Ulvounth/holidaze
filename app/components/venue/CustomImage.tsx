@@ -20,7 +20,6 @@ const CustomImage: React.FC<CustomImageProps> = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
 
-  // Handle image load error and fallback to placeholder
   const handleImageError = () => {
     setImageSrc("/images/placeholder.webp");
   };
@@ -32,7 +31,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
       width={width}
       height={height}
       className={className}
-      onError={handleImageError} // Fallback to placeholder
+      onError={handleImageError}
     />
   );
 };

@@ -19,31 +19,30 @@ const Header: React.FC = () => {
     await fetch("/api/auth/logout", {
       method: "GET",
     });
-    logout(); // Call the logout function to update state
-    router.replace("/"); // Redirect to the homepage
+    logout();
+    router.replace("/");
   };
 
   const closeModal = useCallback(() => setActiveModal(null), []);
 
   return (
-    <header className="flex justify-between items-center p-4 bg-white shadow-md">
+    <header className="container mx-auto flex justify-between items-center p-4">
       <Link href="/">
         <h1 className="text-2xl font-bold">Holidaze</h1>
       </Link>
       <div>
         {isLoggedIn ? (
           <>
-            <Link href="/createVenue">Create Venue</Link>
             {user?.name && (
               <Link href={`/profile/${user.name}`}>
-                <button className="mr-4 p-2 border border-gray-300 rounded">
+                <button className="mr-4 px-5 py-2 border border-gray-300 rounded">
                   Profile
                 </button>
               </Link>
             )}
             <button
               onClick={handleLogout}
-              className="p-2 bg-red-500 text-white rounded"
+              className="px-5 py-2 bg-red-500 text-white rounded"
             >
               Log out
             </button>
@@ -52,13 +51,13 @@ const Header: React.FC = () => {
           <>
             <button
               onClick={() => setActiveModal("login")}
-              className="mr-4 p-2 border border-gray-300 rounded"
+              className="mr-4 px-5 py-2 bg-btnSecondary rounded"
             >
               Login
             </button>
             <button
               onClick={() => setActiveModal("register")}
-              className="p-2 bg-pink-500 text-white rounded"
+              className="px-5 py-2 bg-btnPrimary text-white rounded"
             >
               Register
             </button>

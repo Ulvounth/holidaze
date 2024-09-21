@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { cookies } from "next/headers";
 import fetchProfileData from "@/app/lib/services/profile/fetchProfile";
-import { fetchProfileVenues } from "@/app/lib/services/profile/fetchProfileVenues"; // Add this import
+import { fetchProfileVenues } from "@/app/lib/services/profile/fetchProfileVenues";
 import Tabs from "@/app/components/profile/Tabs";
+import Link from "next/link";
 
 async function ProfilePage({ params }: { params: { name: string } }) {
   const { name } = params;
@@ -17,7 +18,6 @@ async function ProfilePage({ params }: { params: { name: string } }) {
     );
   }
 
-  // Fetch user profile data
   const profileData = await fetchProfileData(name, token);
 
   if (!profileData) {
@@ -26,7 +26,6 @@ async function ProfilePage({ params }: { params: { name: string } }) {
     );
   }
 
-  // Fetch venues managed by this profile, along with the bookings made on those venues
   const venues = await fetchProfileVenues(name, token);
 
   return (
@@ -59,13 +58,22 @@ async function ProfilePage({ params }: { params: { name: string } }) {
           {profileData.bio && (
             <p className="mt-2 text-gray-700">{profileData.bio}</p>
           )}
+
+          {profileData.venueManager && (
+            <div className="mt-4">
+              <Link href="/createVenue">
+                <button className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                  + Create Venue
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
 
-        {/* Show venues and bookings made on those venues */}
         <Tabs
           profileData={profileData}
           bookings={profileData.bookings || []}
-          venues={venues} // Pass the fetched venues with bookings here
+          venues={venues}
         />
       </div>
     </div>

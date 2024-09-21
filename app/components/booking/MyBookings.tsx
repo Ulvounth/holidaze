@@ -3,17 +3,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Booking } from "@/app/lib/types";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { useToast } from "@chakra-ui/react";
 
 export default function MyBookings({ bookings }: { bookings: Booking[] }) {
-  const router = useRouter(); // Initialize the router for navigation
-  const [bookingList, setBookingList] = useState(bookings); // Manage booking state
+  const router = useRouter();
+  const toast = useToast();
+  const [bookingList, setBookingList] = useState(bookings);
 
   if (!bookingList || bookingList.length === 0) {
     return <div>No bookings found.</div>;
   }
 
   const handleViewBooking = (venueId: string) => {
-    // Redirect to the venue page when 'View Booking' is clicked
     router.push(`/venue/${venueId}`);
   };
 
@@ -24,7 +25,7 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
     if (!confirmCancel) return;
 
     try {
-      const headers = await createAuthHeaders(); // Get auth headers if needed
+      const headers = await createAuthHeaders();
 
       const response = await fetch(`/api/booking/${bookingId}/delete`, {
         method: "DELETE",
@@ -32,15 +33,28 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
       });
 
       if (response.status === 204) {
-        alert("Booking canceled successfully!");
+        toast({
+          title: "Booking canceled.",
+          description: "Booking canceled successfully!",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
 
-        // Update the booking list after deleting the booking
         setBookingList((prevBookings) =>
           prevBookings.filter((booking) => booking.id !== bookingId)
         );
       } else {
         const data = await response.json();
-        alert(data.message || "Failed to cancel booking.");
+        toast({
+          title: "Booking cancel.",
+          description: data.message || "Failed to cancel booking.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       }
     } catch (error) {
       console.error("Error canceling booking:", error);
@@ -62,9 +76,9 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
                   <Image
                     src={booking.venue.media[0].url}
                     alt={booking.venue.media[0].alt || "Venue image"}
-                    fill={true} // Use fill instead of layout="fill"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Add sizes for better performance
-                    className="rounded object-cover" // Use Tailwind CSS for object fit
+                    fill={true}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="rounded object-cover"
                     priority={true}
                   />
                 </div>
@@ -87,7 +101,6 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
               <p className="text-center">Guests: {booking.guests}</p>
             </div>
 
-            {/* View and Cancel buttons */}
             <div className="flex justify-between w-full mt-4 gap-2">
               <button
                 className="flex-grow p-2 bg-blue-500 text-white rounded hover:bg-blue-600"

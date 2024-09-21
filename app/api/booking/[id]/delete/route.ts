@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { deleteBooking } from "@/app/lib/services/booking/deleteBooking";
 
-// Named export for DELETE method
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
@@ -13,7 +12,7 @@ export async function DELETE(
 
     await deleteBooking(bookingId, headers);
 
-    return new Response(null, { status: 204 }); // Return a proper empty 204 response
+    return new Response(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting booking:", error);
     return NextResponse.json(

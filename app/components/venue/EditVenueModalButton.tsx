@@ -36,11 +36,8 @@ const EditVenueModalButton = ({ venue }: EditVenueModalButtonProps) => {
 
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <UpdateVenueForm
-            venue={venue}
-            onSuccess={handleCloseModal} // Close modal after success
-          />
-          {/* Ensure that the modal close function is passed here */}
+          <UpdateVenueForm venue={venue} onSuccess={handleCloseModal} />
+
           <DeleteVenueButton venueId={venue.id} onClose={handleCloseModal} />
         </Modal>
       )}

@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Zod schema for venue validation
 export const venueSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   description: z

@@ -6,14 +6,9 @@ type VenueBookingsProps = {
   venueId: string;
 };
 
-export default function VenueBookings({
-  bookings,
-  venueId,
-}: VenueBookingsProps) {
-  // State to track if the bookings for this venue are expanded or collapsed
+export default function VenueBookings({ bookings }: VenueBookingsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Toggle the expanded state
   const toggleBookings = () => {
     setIsExpanded((prev) => !prev);
   };
@@ -27,7 +22,6 @@ export default function VenueBookings({
         </button>
       </h4>
 
-      {/* Collapsible section */}
       {isExpanded && (
         <ul className="list-inside mt-2 bg-gray-50 p-4 rounded-md shadow ">
           {bookings.map((booking) => (

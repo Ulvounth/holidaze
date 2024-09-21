@@ -1,25 +1,24 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers"; // Import cookies helper
+import { cookies } from "next/headers";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
 import { updateVenueById } from "@/app/lib/services/venue/updateVenueById";
 
-// Named export for PUT method
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const headers = await createAuthHeaders(); // Get the authorization headers
+    const headers = await createAuthHeaders();
     const venueId = params.id;
 
-    const venue = await fetchVenueById(venueId); // Fetch venue
+    const venue = await fetchVenueById(venueId);
 
     if (!venue) {
       return NextResponse.json({ message: "Venue not found" }, { status: 404 });
     }
 
-    const cookieStore = cookies(); // Get cookies
+    const cookieStore = cookies();
     const userCookie = cookieStore.get("user")
       ? JSON.parse(decodeURIComponent(cookieStore.get("user")?.value as string))
       : null;
@@ -31,7 +30,6 @@ export async function PUT(
       );
     }
 
-    // Ensure the logged-in user is the venue owner or manager
     if (
       venue.owner.email.trim().toLowerCase() !==
       userCookie.email.trim().toLowerCase()
@@ -42,8 +40,8 @@ export async function PUT(
       );
     }
 
-    const body = await req.json(); // Get the body of the request
-    const updatedVenue = await updateVenueById(venueId, body, headers); // Update venue
+    const body = await req.json();
+    const updatedVenue = await updateVenueById(venueId, body, headers);
 
     return NextResponse.json({ data: updatedVenue }, { status: 200 });
   } catch (error) {

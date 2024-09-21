@@ -18,7 +18,6 @@ export async function GET(
       );
     }
 
-    // Sanitize the name parameter
     const sanitizedName = sanitize(params.name, {
       allowedTags: [],
       allowedAttributes: {},

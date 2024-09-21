@@ -22,18 +22,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form data using Zod schema
     const validationResult = loginSchema.safeParse({ email, password });
     if (!validationResult.success) {
       const newErrors: Record<string, string> = {};
       validationResult.error.errors.forEach((err) => {
-        newErrors[err.path[0]] = err.message; // Store field-specific errors
+        newErrors[err.path[0]] = err.message;
       });
-      setErrors(newErrors); // Set errors state
+      setErrors(newErrors);
       return;
     }
 
-    setErrors({}); // Clear errors if validation passes
+    setErrors({});
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -78,7 +77,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         placeholder="email@example.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        error={errors.email} // Pass the error for this field
+        error={errors.email}
       />
       <InputField
         id="password"
@@ -87,10 +86,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         placeholder="Enter your password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        error={errors.password} // Pass the error for this field
+        error={errors.password}
       />
       {errors.general && <p className="text-red-500">{errors.general}</p>}
-      <button type="submit" className="p-2 bg-pink-500 text-white rounded mt-4">
+      <button type="submit" className="mr-4 px-5 py-2 bg-btnSecondary rounded">
         Login
       </button>
     </form>

@@ -8,13 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       fontFamily: {
-        alkatra: ["var(--font-alkatra)", "sans-serif"], // Add a fallback font
+        alkatra: ["var(--font-alkatra)", "sans-serif"],
+      },
+      container: {
+        screens: {
+          xl: "1500px",
+          "2xl": "1800px",
+          "3xl": "2200px",
+        },
+      },
+      colors: {
+        btnPrimary: "#ec4899",
+        btnSecondary: "#859EF5",
       },
     },
   },

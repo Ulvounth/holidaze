@@ -14,7 +14,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
     password: "",
     venueManager: false,
   });
-  const [errors, setErrors] = useState<Record<string, string>>({}); // State for field errors
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
   const toast = useToast();
 
@@ -86,7 +86,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         value={formData.name}
         onChange={handleChange}
         name="name"
-        error={errors.name} // Pass the error for this field
+        error={errors.name}
       />
       <InputField
         id="email"
@@ -96,7 +96,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         value={formData.email}
         onChange={handleChange}
         name="email"
-        error={errors.email} // Pass the error for this field
+        error={errors.email}
       />
       <InputField
         id="password"
@@ -106,7 +106,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         value={formData.password}
         onChange={handleChange}
         name="password"
-        error={errors.password} // Pass the error for this field
+        error={errors.password}
       />
       <div className="mt-4">
         <label className="inline-flex items-center">
@@ -121,7 +121,10 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         </label>
       </div>
       {errors.general && <p className="text-red-500">{errors.general}</p>}
-      <button type="submit" className="p-2 bg-pink-500 text-white rounded mt-4">
+      <button
+        type="submit"
+        className="px-5 py-2 bg-btnPrimary text-white rounded mt-4"
+      >
         Register
       </button>
     </form>

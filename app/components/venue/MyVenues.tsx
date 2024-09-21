@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Venue } from "@/app/lib/types";
-import EditVenueModalButton from "./EditVenueModalButton"; // Client-side modal button
+import EditVenueModalButton from "./EditVenueModalButton";
 import VenueBookings from "./VenueBookings";
 
 export default function MyVenues({ venues }: { venues: Venue[] }) {
@@ -42,7 +42,6 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
               <p className="text-center">Max Guests: {venue.maxGuests}</p>
             </div>
 
-            {/* View and Edit buttons */}
             <div className="flex justify-between w-full mt-4 gap-2">
               <a
                 href={`/venue/${venue.id}`}
@@ -53,7 +52,6 @@ export default function MyVenues({ venues }: { venues: Venue[] }) {
               <EditVenueModalButton venue={venue} />
             </div>
 
-            {/* Bookings Section */}
             {venue.bookings && venue.bookings.length > 0 ? (
               <VenueBookings bookings={venue.bookings} venueId={venue.id} />
             ) : (

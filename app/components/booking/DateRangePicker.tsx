@@ -8,7 +8,7 @@ type DateRangePickerProps = {
   checkOutDate: Date | undefined;
   setCheckInDate: (date: Date | undefined) => void;
   setCheckOutDate: (date: Date | undefined) => void;
-  bookedDates: Array<{ from: Date; to: Date }>; // Add bookedDates prop
+  bookedDates: Array<{ from: Date; to: Date }>;
 };
 
 const DateRangePicker = ({
@@ -16,7 +16,7 @@ const DateRangePicker = ({
   checkOutDate,
   setCheckInDate,
   setCheckOutDate,
-  bookedDates, // Get bookedDates
+  bookedDates,
 }: DateRangePickerProps) => {
   return (
     <div>
@@ -28,7 +28,7 @@ const DateRangePicker = ({
           selectsStart
           startDate={checkInDate}
           endDate={checkOutDate}
-          minDate={new Date()} // Disallow past dates
+          minDate={new Date()}
           excludeDates={Array.from(
             new Set(
               bookedDates.flatMap((booking) => {
@@ -42,7 +42,7 @@ const DateRangePicker = ({
                 return dates;
               })
             )
-          )} // Disable booked dates
+          )}
           className="w-full px-3 py-2 border rounded"
           placeholderText="Select check-in date"
         />
@@ -55,7 +55,7 @@ const DateRangePicker = ({
           selectsEnd
           startDate={checkInDate}
           endDate={checkOutDate}
-          minDate={checkInDate || new Date()} // Disallow dates before check-in
+          minDate={checkInDate || new Date()}
           excludeDates={Array.from(
             new Set(
               bookedDates.flatMap((booking) => {
@@ -69,7 +69,7 @@ const DateRangePicker = ({
                 return dates;
               })
             )
-          )} // Disable booked dates
+          )}
           className="w-full px-3 py-2 border rounded"
           placeholderText="Select check-out date"
         />

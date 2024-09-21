@@ -43,14 +43,13 @@ export default async function VenuePage({ params }: Props) {
       media && media.length > 0 ? media[0].url : "/images/placeholder.webp";
     const imageAlt = media && media.length > 0 ? media[0].alt : name;
 
-    // Keep the bookings array in the Date format for the calendar
     const bookedDates = bookings.map((booking: any) => ({
       from: new Date(booking.dateFrom),
       to: new Date(booking.dateTo),
     }));
 
     return (
-      <div className="container mx-auto py-6 px-4 lg:px-0">
+      <div className="container mx-auto py-6 px-4 lg:px-0 border-t-2">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <div className="relative w-full h-64 lg:h-96 mb-4 rounded overflow-hidden">
@@ -120,6 +119,7 @@ export default async function VenuePage({ params }: Props) {
                     style={{ objectFit: "cover" }}
                     className="rounded-full"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40px"
+                    loading="lazy"
                   />
                 </div>
                 <div className="ml-4">

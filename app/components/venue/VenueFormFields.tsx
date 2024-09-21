@@ -5,7 +5,7 @@ interface VenueFormFieldsProps {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  errors: Record<string, string>; // Add error prop to display validation messages
+  errors: Record<string, string>;
 }
 
 const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
@@ -42,7 +42,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         )}
       </div>
 
-      {/* Media URL and Alt Text */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Media URL
@@ -69,7 +68,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         />
       </div>
 
-      {/* Price */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">Price</label>
         <input
@@ -82,7 +80,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         {errors.price && <p className="text-red-500">{errors.price}</p>}
       </div>
 
-      {/* Max Guests */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Max Guests
@@ -97,7 +94,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         {errors.maxGuests && <p className="text-red-500">{errors.maxGuests}</p>}
       </div>
 
-      {/* Rating */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Rating (0-5)
@@ -114,7 +110,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         />
       </div>
 
-      {/* Meta */}
       <div className="mb-4 grid grid-cols-2 gap-4">
         <label className="flex items-center">
           <input
@@ -158,7 +153,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         </label>
       </div>
 
-      {/* Address Fields */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Address
@@ -218,7 +212,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         />
       </div>
 
-      {/* Lat and Lng */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Latitude

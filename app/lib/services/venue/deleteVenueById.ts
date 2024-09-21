@@ -11,5 +11,5 @@ export async function deleteVenueById(venueId: string, headers: Headers) {
     throw new Error("Failed to delete venue");
   }
 
-  return response.status === 204; // Return true if the venue was deleted successfully
+  return response.status === 204;
 }

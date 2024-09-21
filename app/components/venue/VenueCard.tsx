@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CustomImage from "./CustomImage"; // Import CustomImage component
+import CustomImage from "./CustomImage";
 import { Venue } from "@/app/lib/types";
 
 interface VenueCardProps {

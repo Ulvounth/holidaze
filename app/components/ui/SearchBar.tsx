@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 type SearchBarProps = {
-  className?: string; // Accept className as a prop
+  className?: string;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
@@ -31,7 +31,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         className || ""
       }`}
     >
-      {/* Search Input */}
       <input
         type="text"
         value={query}
@@ -39,7 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         placeholder="Search location"
         className="sm:w-auto p-2 bg-white text-black placeholder-gray-500 focus:outline-none rounded"
       />
-      {/* Start Date Picker */}
+
       <DatePicker
         selected={startDate}
         onChange={(date) => setStartDate(date || undefined)}
@@ -49,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         placeholderText="Start Date"
         className="w-full sm:w-auto p-2 border text-black rounded"
       />
-      {/* End Date Picker */}
+
       <DatePicker
         selected={endDate}
         onChange={(date) => setEndDate(date || undefined)}
@@ -59,10 +58,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ className }) => {
         placeholderText="End Date"
         className="w-full sm:w-auto p-2 border text-black rounded"
       />
-      {/* Search Button */}
+
       <button
         onClick={handleSearch}
-        className="sm:w-auto p-2 bg-pink-500 text-white rounded sm:rounded-r"
+        className="sm:w-auto px-5 py-2 bg-btnPrimary text-white rounded sm:rounded-r"
       >
         Search
       </button>

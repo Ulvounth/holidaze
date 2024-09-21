@@ -7,7 +7,7 @@ export const formatVenueData = (formData: Record<string, any>) => {
       : [],
     price: Number(formData.price),
     maxGuests: Number(formData.maxGuests),
-    rating: Number(formData.rating), // Add the rating field here
+    rating: Number(formData.rating),
     meta: {
       wifi: formData.wifi,
       parking: formData.parking,

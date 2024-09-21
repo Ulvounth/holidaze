@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MyBookings from "../booking/MyBookings";
-import MyVenues from "../venue/MyVenues"; // Server-side component for rendering venues
+import MyVenues from "../venue/MyVenues";
 import Settings from "./Settings";
 import { ProfileData, Booking, Venue } from "@/app/lib/types";
 

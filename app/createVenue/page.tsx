@@ -8,7 +8,7 @@ export default function CreateVenuePage() {
   const user = userCookie ? JSON.parse(userCookie.value) : null;
 
   if (!user?.venueManager) {
-    redirect("/unauthorized"); // Redirect if the user is not a venue manager
+    redirect("/unauthorized");
   }
 
   return (

@@ -59,7 +59,6 @@ const VenueForm = () => {
     e.preventDefault();
     setErrors({});
 
-    // Validate form data using Zod schema
     const validation = venueSchema.safeParse(formData);
     if (!validation.success) {
       const newErrors: Record<string, string> = {};

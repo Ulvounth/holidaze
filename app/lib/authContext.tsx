@@ -13,13 +13,13 @@ interface User {
   name: string;
   email: string;
   avatarUrl?: string;
-  venueManager?: boolean; // Indicates if the user is a venue manager
+  venueManager?: boolean;
 }
 
 interface AuthContextProps {
   isLoggedIn: boolean;
   user: User | null;
-  login: (user: User, token: string) => void; // Added token argument
+  login: (user: User, token: string) => void;
   logout: () => void;
 }
 
@@ -32,12 +32,11 @@ export const AuthProvider = ({
 }: {
   children: ReactNode;
   isLoggedIn: boolean;
-  initialUser: User | null; // Pass initial user state if available
+  initialUser: User | null;
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
   const [user, setUser] = useState<User | null>(initialUser);
 
-  // Hydrate user state from cookies if available
   useEffect(() => {
     const storedUser = cookie.get("user");
     if (storedUser) {
@@ -50,9 +49,8 @@ export const AuthProvider = ({
     setUser(user);
     setIsLoggedIn(true);
 
-    // Store the token and user info in cookies
     cookie.set("accessToken", token, {
-      path: "/", // Set the accessToken cookie (optional)
+      path: "/",
       secure: true,
       sameSite: "Strict",
     });
@@ -65,15 +63,14 @@ export const AuthProvider = ({
   };
 
   const logout = () => {
-    // Remove the token and user cookies
     cookie.remove("accessToken", {
-      path: "/", // Ensure the path matches the path where the cookie was set
+      path: "/",
     });
     cookie.remove("user", {
       path: "/",
     });
     setIsLoggedIn(false);
-    setUser(null); // Clear the user state
+    setUser(null);
   };
 
   return (

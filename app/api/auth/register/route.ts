@@ -14,12 +14,11 @@ export async function POST(req: NextRequest) {
       venueManager,
     }: RegisterRequestBody = await req.json();
 
-    // Proceed with registration request
     const response = await fetch("https://v2.api.noroff.dev/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "", // Include API Key
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "",
       },
       body: JSON.stringify({
         name,
@@ -35,7 +34,6 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-      // Improve error handling by checking for specific error messages from the API response
       const errorMessage =
         data.errors?.[0]?.message || data.message || "Registration failed";
       return NextResponse.json(
@@ -44,12 +42,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Set the access token as an HTTP-only cookie
     const cookiesStore = cookies();
     cookiesStore.set("accessToken", data.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60, //
       sameSite: "strict",
       path: "/",
     });
@@ -58,7 +55,6 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Error in POST /api/auth/register:", error);
 
-    // Provide detailed error messages for common issues
     const errorMessage =
       error?.message || "An unexpected error occurred during registration.";
 

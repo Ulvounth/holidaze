@@ -46,7 +46,7 @@ export const LocationMap = ({ location }: Props) => {
   });
 
   const [mapCenter, setMapCenter] = useState<Coordinates | null>(null);
-  const [geocodeError, setGeocodeError] = useState<string | null>(null); // State to handle geocode errors
+  const [geocodeError, setGeocodeError] = useState<string | null>(null);
 
   const isValidCoordinate = (
     coord: number | null | undefined
@@ -57,7 +57,7 @@ export const LocationMap = ({ location }: Props) => {
 
     if (isValidCoordinate(location.lat) && isValidCoordinate(location.lng)) {
       setMapCenter({ lat: location.lat, lng: location.lng });
-      setGeocodeError(null); // Clear any previous errors
+      setGeocodeError(null);
     } else if (location.address || location.city || location.country) {
       const fullAddress = `${location.address || ""}, ${location.city || ""}, ${
         location.zip || ""
@@ -67,7 +67,7 @@ export const LocationMap = ({ location }: Props) => {
       geocoder.geocode({ address: fullAddress }, (results, status) => {
         if (status === "OK" && results && results.length > 0) {
           setMapCenter(results[0].geometry.location.toJSON());
-          setGeocodeError(null); // Clear any errors on success
+          setGeocodeError(null);
         } else {
           console.error("Geocoding failed:", status);
           setGeocodeError("Geocoding failed: No valid location found.");

@@ -11,12 +11,10 @@ type BookingCalendarProps = {
 const BookingCalendar = ({ bookings }: BookingCalendarProps) => {
   const [hydrated, setHydrated] = useState(false);
 
-  // Ensure the component is hydrated before rendering the calendar
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  // Convert Date objects to timestamps for consistent comparison
   const isDateBooked = (date: Date) => {
     const time = date.getTime();
     return bookings.some(
@@ -27,7 +25,6 @@ const BookingCalendar = ({ bookings }: BookingCalendarProps) => {
   };
 
   if (!hydrated) {
-    // Avoid rendering on the server to prevent hydration mismatch
     return null;
   }
 

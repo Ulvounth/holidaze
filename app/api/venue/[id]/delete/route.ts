@@ -9,16 +9,16 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const headers = await createAuthHeaders(); // Get the authorization headers
+    const headers = await createAuthHeaders();
     const venueId = params.id;
 
-    const venue = await fetchVenueById(venueId); // Fetch venue
+    const venue = await fetchVenueById(venueId);
 
     if (!venue) {
       return NextResponse.json({ message: "Venue not found" }, { status: 404 });
     }
 
-    const cookieStore = cookies(); // Get cookies
+    const cookieStore = cookies();
     const userCookie = cookieStore.get("user")
       ? JSON.parse(decodeURIComponent(cookieStore.get("user")?.value as string))
       : null;
@@ -30,7 +30,6 @@ export async function DELETE(
       );
     }
 
-    // Ensure the logged-in user is the venue owner or manager
     if (
       venue.owner.email.trim().toLowerCase() !==
       userCookie.email.trim().toLowerCase()
@@ -41,9 +40,8 @@ export async function DELETE(
       );
     }
 
-    await deleteVenueById(venueId, headers); // Delete venue
+    await deleteVenueById(venueId, headers);
 
-    // Return a proper 204 No Content response with no body
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting venue:", error);

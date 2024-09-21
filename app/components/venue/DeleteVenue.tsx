@@ -7,14 +7,13 @@ import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 
 type DeleteVenueButtonProps = {
   venueId: string;
-  onClose: () => void; // Pass a callback to close the modal
+  onClose: () => void;
 };
 
 const DeleteVenueButton = ({ venueId, onClose }: DeleteVenueButtonProps) => {
-  const { user } = useAuth(); // Get the user from your auth context
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  // Only render the delete button if the user is the owner of the venue
   if (!user) {
     return null;
   }
@@ -29,12 +28,12 @@ const DeleteVenueButton = ({ venueId, onClose }: DeleteVenueButtonProps) => {
     try {
       const response = await fetch(`/api/venue/${venueId}/delete`, {
         method: "DELETE",
-        headers: await createAuthHeaders(), // Use createAuthHeaders for authentication
+        headers: await createAuthHeaders(),
       });
 
       if (response.status === 204) {
         alert("Venue deleted successfully!");
-        onClose(); // Close the modal
+        onClose();
       } else {
         const data = await response.json();
         alert(data.message || "Failed to delete venue.");
