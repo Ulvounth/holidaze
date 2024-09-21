@@ -60,6 +60,7 @@ export default async function VenuePage({ params }: Props) {
                 priority
                 className="object-cover rounded"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                unoptimized
               />
             </div>
             <h1 className="text-3xl font-bold mb-4">{name}</h1>
