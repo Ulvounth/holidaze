@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
           Secure your dream vacation at an unbeatable price here!
         </h2>
 
-        <div className="w-full max-w-lg mx-auto">
+        <div className="w-full max-w-2xl mx-auto">
           <SearchBar className="w-full" />
         </div>
       </div>
