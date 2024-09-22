@@ -43,6 +43,8 @@ export default async function VenuePage({ params }: Props) {
       media && media.length > 0 ? media[0].url : "/images/placeholder.webp";
     const imageAlt = media && media.length > 0 ? media[0].alt : name;
 
+    const shouldUnoptimize = imageUrl.includes("istockphoto.com");
+
     const bookedDates = bookings.map((booking: any) => ({
       from: new Date(booking.dateFrom),
       to: new Date(booking.dateTo),
@@ -60,7 +62,7 @@ export default async function VenuePage({ params }: Props) {
                 priority
                 className="object-cover rounded"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                unoptimized
+                unoptimized={shouldUnoptimize}
               />
             </div>
             <h1 className="text-3xl font-bold mb-4">{name}</h1>

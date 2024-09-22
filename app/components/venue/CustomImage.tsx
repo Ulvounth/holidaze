@@ -18,6 +18,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
   width,
   height,
   className = "",
+  loading = "lazy",
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
 
@@ -33,7 +34,8 @@ const CustomImage: React.FC<CustomImageProps> = ({
       height={height}
       className={className}
       onError={handleImageError}
-      loading="lazy"
+      loading={loading}
+      unoptimized={imageSrc.includes("istockphoto.com")}
     />
   );
 };
