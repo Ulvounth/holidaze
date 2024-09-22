@@ -1,9 +1,12 @@
 import { Venue } from "../../types";
 import { API_BASE_URL } from "../../constants";
 
-export const fetchVenues = async (): Promise<Venue[]> => {
+export const fetchVenues = async (
+  page: number = 1,
+  limit: number = 20
+): Promise<Venue[]> => {
   const response = await fetch(
-    `${API_BASE_URL}holidaze/venues?_owner=true&_bookings=true`,
+    `${API_BASE_URL}holidaze/venues?limit=${limit}&page=${page}&_owner=true&_bookings=true`,
     {
       cache: "no-store",
     }
