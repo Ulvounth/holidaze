@@ -15,11 +15,25 @@ body {
 }
 
 main {
-  flex: 1; /* This makes sure the main content area takes up the available space */
+  flex: 1;
 }
 
 footer {
-  margin-top: auto; /* Pushes the footer to the bottom */
+  margin-top: auto;
+}
+
+.loader {
+  border-top-color: #3498db;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .custom-calendar {
@@ -32,16 +46,15 @@ footer {
 }
 
 .booked {
-  background-color: #ffdddd !important; /* Light red background for booked dates */
-  color: #ff0000 !important; /* Red text for booked dates */
+  background-color: #ffdddd !important;
+  color: #ff0000 !important;
 }
 
 .booked.react-calendar__tile {
-  pointer-events: none; /* Ensure booked dates are not clickable */
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
-  /* Adjust layout for mobile screens */
   footer {
     padding: 20px;
     text-align: center;

@@ -69,8 +69,7 @@ export const LocationMap = ({ location }: Props) => {
           setMapCenter(results[0].geometry.location.toJSON());
           setGeocodeError(null);
         } else {
-          console.error("Geocoding failed:", status);
-          setGeocodeError("Geocoding failed: No valid location found.");
+          setGeocodeError("No valid location found.");
         }
       });
     } else {

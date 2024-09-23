@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import Loader from "./components/ui/Loader";
 import Header from "./components/Header";
 import "./globals.css";
 import Footer from "./components/Footer";
@@ -47,7 +49,9 @@ export default async function Layout({ children }: LayoutProps) {
         <ChakraProvider>
           <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>
             <Header />
-            <main className="flex-grow">{children}</main>
+            <Suspense fallback={<Loader />}>
+              <main className="flex-grow">{children}</main>
+            </Suspense>
             <Footer />
           </AuthProvider>
         </ChakraProvider>

@@ -15,6 +15,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+
       <div className="container mx-auto py-6">
         <h2 className="text-2xl font-bold mb-4">Venues</h2>
 
