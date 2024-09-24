@@ -8,7 +8,11 @@ export const venueSchema = z.object({
   media: z
     .array(
       z.object({
-        url: z.string().url({ message: "Invalid URL format" }).optional(),
+        url: z
+          .string()
+          .url({ message: "Invalid URL format" })
+          .optional() // Media URL is now optional
+          .or(z.literal("")),
         alt: z.string().optional(),
       })
     )

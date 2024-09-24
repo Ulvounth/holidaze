@@ -13,16 +13,6 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
   handleChange,
   errors,
 }) => {
-  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    handleChange({
-      ...e,
-      target: {
-        ...e.target,
-        value: JSON.stringify([{ ...formData.media?.[0], [name]: value }]),
-      },
-    });
-  };
   return (
     <>
       <div className="mb-4">
@@ -58,12 +48,11 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         </label>
         <input
           type="text"
-          name="url"
-          value={formData.media?.[0]?.url || ""}
-          onChange={handleMediaChange}
+          name="mediaUrl"
+          value={formData.media[0]?.url || ""}
+          onChange={handleChange}
           className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
         />
-        {errors.media && <p className="text-red-500">{errors.media}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
@@ -71,9 +60,9 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         </label>
         <input
           type="text"
-          name="alt"
-          value={formData.media?.[0]?.alt || ""}
-          onChange={handleMediaChange}
+          name="mediaAlt"
+          value={formData.media[0]?.alt || ""}
+          onChange={handleChange}
           className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>

@@ -7,13 +7,12 @@ import { venueSchema, VenueFormSchema } from "@/app/lib/schemas/venueSchema";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
-import { validateUrl } from "@/app/lib/utils";
 
 const VenueForm = () => {
   const [formData, setFormData] = useState<VenueFormSchema>({
     name: "",
     description: "",
-    media: [{ url: "", alt: "" }],
+    media: [{ url: "", alt: "" }], // Initialize media array with an object
     price: 0,
     maxGuests: 0,
     rating: 0,
@@ -50,19 +49,46 @@ const VenueForm = () => {
       newValue = (e.target as HTMLInputElement).checked;
     }
 
-    setFormData({
-      ...formData,
-      [name]: newValue,
-    });
+    if (name === "mediaUrl" || name === "mediaAlt") {
+      setFormData((prevState) => ({
+        ...prevState,
+        media: [
+          {
+            ...prevState.media?.[0],
+            [name === "mediaUrl" ? "url" : "alt"]: newValue,
+          },
+        ],
+      }));
+    }
+    // Handle nested fields for meta and location
+    else if (name in formData.meta) {
+      setFormData((prevState) => ({
+        ...prevState,
+        meta: {
+          ...prevState.meta,
+          [name]: newValue,
+        },
+      }));
+    } else if (name in formData.location) {
+      setFormData((prevState) => ({
+        ...prevState,
+        location: {
+          ...prevState.location,
+          [name]: newValue,
+        },
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: newValue,
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors({});
 
-    const mediaUrl =
-      formData.media && formData.media[0]?.url ? formData.media[0]?.url : "";
-    const mediaUrlError = mediaUrl ? await validateUrl(mediaUrl) : null;
+    setErrors({});
 
     const validation = venueSchema.safeParse(formData);
     if (!validation.success) {
@@ -73,14 +99,6 @@ const VenueForm = () => {
         }
       });
       setErrors(newErrors);
-      return;
-    }
-
-    if (mediaUrlError) {
-      setErrors({
-        ...errors,
-        media: mediaUrlError,
-      });
       return;
     }
 
