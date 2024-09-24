@@ -38,7 +38,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
       onError={handleImageError}
       loading={priority ? "eager" : "lazy"}
       priority={priority}
-      unoptimized={unoptimized}
+      unoptimized={unoptimized || imageSrc.includes("istockphoto.com")}
     />
   );
 };
