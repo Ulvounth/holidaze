@@ -74,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         id="email"
         label="Email"
         type="email"
-        placeholder="email@example.com"
+        placeholder="email@stud.noroff.no"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         error={errors.email}

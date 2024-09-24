@@ -37,7 +37,7 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
             {venue.rating.toFixed(1)} / 5.0
           </span>
         </div>
-        <p className="text-gray-600">{venue.meta.reviews} reviews</p>
+        <p className="text-gray-600">{venue.meta.reviews}</p>
         <p className="text-pink-500 mt-2">${venue.price} / night</p>
       </div>
     </Link>

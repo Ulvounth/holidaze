@@ -117,7 +117,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
             onChange={handleChange}
             className="form-checkbox"
           />
-          <span className="ml-2 text-gray-700">Are you a venue manager?</span>
+          <span className="ml-2 text-gray-700">Register as venue manager</span>
         </label>
       </div>
       {errors.general && <p className="text-red-500">{errors.general}</p>}
