@@ -1,9 +1,9 @@
 import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
-import Image from "next/image";
 import { Metadata } from "next";
 import BookingForm from "@/app/components/booking/BookingForm";
 import BookingCalendar from "@/app/components/booking/BookingCalendar";
 import { LocationMap } from "@/app/components/venue/LocationMap";
+import CustomImage from "@/app/components/venue/CustomImage";
 
 type Props = {
   params: {
@@ -29,7 +29,6 @@ export default async function VenuePage({ params }: Props) {
     const {
       name,
       description,
-      media,
       price,
       maxGuests,
       rating,
@@ -38,12 +37,6 @@ export default async function VenuePage({ params }: Props) {
       owner,
       bookings = [],
     } = venue;
-
-    const imageUrl =
-      media && media.length > 0 ? media[0].url : "/images/placeholder.webp";
-    const imageAlt = media && media.length > 0 ? media[0].alt : name;
-
-    const shouldUnoptimize = imageUrl.includes("istockphoto.com");
 
     const bookedDates = bookings.map((booking: any) => ({
       from: new Date(booking.dateFrom),
@@ -54,17 +47,17 @@ export default async function VenuePage({ params }: Props) {
       <div className="container mx-auto py-6 px-4 lg:px-0 border-t-2">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <div className="relative w-full h-64 lg:h-96 mb-4 rounded overflow-hidden">
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                fill
+            <div className="relative mb-4 rounded overflow-hidden">
+              <CustomImage
+                src={venue.media[0]?.url || "/images/placeholder.webp"}
+                alt={venue.media[0]?.alt || venue.name}
+                width={1200}
+                height={800}
+                className="w-full venueByIdImg object-cover"
                 priority
-                className="object-cover rounded"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                unoptimized={shouldUnoptimize}
               />
             </div>
+
             <h1 className="text-3xl font-bold mb-4">{name}</h1>
             <div className="flex items-center mb-4">
               <span className="text-yellow-500 text-lg mr-2">
@@ -115,14 +108,12 @@ export default async function VenuePage({ params }: Props) {
             <div className="bg-white p-4 shadow rounded mb-6">
               <div className="flex items-center">
                 <div className="relative w-10 h-10">
-                  <Image
+                  <CustomImage
                     src={owner.avatar.url}
                     alt={owner.avatar.alt}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    className="rounded-full"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40px"
-                    loading="lazy"
+                    width={40}
+                    height={40}
+                    className="h-10 rounded-full object-cover"
                   />
                 </div>
                 <div className="ml-4">

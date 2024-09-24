@@ -9,7 +9,7 @@ interface CustomImageProps {
   width: number;
   height: number;
   className?: string;
-  loading?: "eager" | "lazy";
+  priority?: boolean;
 }
 
 const CustomImage: React.FC<CustomImageProps> = ({
@@ -17,13 +17,15 @@ const CustomImage: React.FC<CustomImageProps> = ({
   alt,
   width,
   height,
-  className = "",
-  loading = "lazy",
+  className,
+  priority = false,
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
+  const [unoptimized, setUnoptimized] = useState(false);
 
   const handleImageError = () => {
     setImageSrc("/images/placeholder.webp");
+    setUnoptimized(true);
   };
 
   return (
@@ -34,8 +36,9 @@ const CustomImage: React.FC<CustomImageProps> = ({
       height={height}
       className={className}
       onError={handleImageError}
-      loading={loading}
-      unoptimized={imageSrc.includes("istockphoto.com")}
+      loading={priority ? "eager" : "lazy"}
+      priority={priority}
+      unoptimized={unoptimized}
     />
   );
 };

@@ -13,6 +13,16 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
   handleChange,
   errors,
 }) => {
+  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    handleChange({
+      ...e,
+      target: {
+        ...e.target,
+        value: JSON.stringify([{ ...formData.media?.[0], [name]: value }]),
+      },
+    });
+  };
   return (
     <>
       <div className="mb-4">
@@ -48,9 +58,9 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         </label>
         <input
           type="text"
-          name="mediaUrl"
-          value={formData.media[0]?.url || ""}
-          onChange={handleChange}
+          name="url"
+          value={formData.media?.[0]?.url || ""}
+          onChange={handleMediaChange}
           className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
         />
         {errors.media && <p className="text-red-500">{errors.media}</p>}
@@ -61,9 +71,9 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
         </label>
         <input
           type="text"
-          name="mediaAlt"
-          value={formData.media[0]?.alt || ""}
-          onChange={handleChange}
+          name="alt"
+          value={formData.media?.[0]?.alt || ""}
+          onChange={handleMediaChange}
           className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>

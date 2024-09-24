@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { updateProfile } from "@/app/lib/services/profile/updateProfile";
+import { validateUrl } from "@/app/lib/utils";
 
 type ProfileFormProps = {
   name: string;
@@ -22,11 +23,23 @@ export default function ProfileForm({
   const [avatarAlt, setAvatarAlt] = useState("User Avatar");
   const [bannerUrl, setBannerUrl] = useState(currentBannerUrl || "");
   const [bannerAlt, setBannerAlt] = useState("Banner Image");
+  const [errors, setErrors] = useState<Record<string, string | null>>({});
 
   const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const avatarUrlError = avatarUrl ? await validateUrl(avatarUrl) : null;
+    const bannerUrlError = bannerUrl ? await validateUrl(bannerUrl) : null;
+
+    if (avatarUrlError || bannerUrlError) {
+      setErrors({
+        avatarUrl: avatarUrlError,
+        bannerUrl: bannerUrlError,
+      });
+      return;
+    }
 
     try {
       const updateData = {
@@ -40,7 +53,7 @@ export default function ProfileForm({
         banner: {
           url:
             bannerUrl ||
-            "https://www.bu.edu/globalprograms/files/2015/05/banner-placeholder.png",
+            "https://images.unsplash.com/photo-1511285605577-4d62fb50d2f7?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           alt: bannerAlt || "Banner Image",
         },
       };
@@ -82,8 +95,11 @@ export default function ProfileForm({
           type="url"
           value={avatarUrl}
           onChange={(e) => setAvatarUrl(e.target.value)}
-          className="w-full px-3 py-2 border rounded"
+          className={`w-full px-3 py-2 border rounded ${
+            errors.avatarUrl ? "border-red-500" : ""
+          }`}
         />
+        {errors.avatarUrl && <p className="text-red-500">{errors.avatarUrl}</p>}
       </div>
       <div>
         <label className="block text-gray-700">Avatar Alt Text</label>
@@ -100,8 +116,11 @@ export default function ProfileForm({
           type="url"
           value={bannerUrl}
           onChange={(e) => setBannerUrl(e.target.value)}
-          className="w-full px-3 py-2 border rounded"
+          className={`w-full px-3 py-2 border rounded ${
+            errors.bannerUrl ? "border-red-500" : ""
+          }`}
         />
+        {errors.bannerUrl && <p className="text-red-500">{errors.bannerUrl}</p>}
       </div>
       <div>
         <label className="block text-gray-700">Banner Alt Text</label>

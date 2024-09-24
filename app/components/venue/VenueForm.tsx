@@ -7,12 +7,13 @@ import { venueSchema, VenueFormSchema } from "@/app/lib/schemas/venueSchema";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
+import { validateUrl } from "@/app/lib/utils";
 
 const VenueForm = () => {
   const [formData, setFormData] = useState<VenueFormSchema>({
     name: "",
     description: "",
-    media: [],
+    media: [{ url: "", alt: "" }],
     price: 0,
     maxGuests: 0,
     rating: 0,
@@ -59,6 +60,10 @@ const VenueForm = () => {
     e.preventDefault();
     setErrors({});
 
+    const mediaUrl =
+      formData.media && formData.media[0]?.url ? formData.media[0]?.url : "";
+    const mediaUrlError = mediaUrl ? await validateUrl(mediaUrl) : null;
+
     const validation = venueSchema.safeParse(formData);
     if (!validation.success) {
       const newErrors: Record<string, string> = {};
@@ -68,6 +73,14 @@ const VenueForm = () => {
         }
       });
       setErrors(newErrors);
+      return;
+    }
+
+    if (mediaUrlError) {
+      setErrors({
+        ...errors,
+        media: mediaUrlError,
+      });
       return;
     }
 
