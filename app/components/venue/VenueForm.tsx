@@ -138,9 +138,11 @@ const VenueForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-7xl mx-auto bg-white p-8 shadow-md rounded-lg"
+      className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg border border-gray-200"
     >
-      <h2 className="text-2xl font-semibold mb-6">Create a New Venue</h2>
+      <h2 className="text-3xl font-semibold mb-8 text-gray-800 text-center">
+        Create a New Venue
+      </h2>
       <VenueFormFields
         formData={formData}
         handleChange={handleChange}
@@ -148,7 +150,7 @@ const VenueForm = () => {
       />
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded mt-4 hover:bg-blue-700 transition-colors"
+        className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white py-3 px-5 rounded-lg font-semibold hover:from-blue-600 hover:to-teal-600 transition-transform transform hover:scale-105 duration-300 mt-6"
       >
         Create Venue
       </button>
