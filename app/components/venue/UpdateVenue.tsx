@@ -38,11 +38,18 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
     e.preventDefault();
     setLoading(true);
 
+    // Ensure price and maxGuests are numbers
+    const formattedFormData = {
+      ...formData,
+      price: Number(formData.price), // Ensure price is a number
+      maxGuests: Number(formData.maxGuests), // Ensure maxGuests is a number
+    };
+
     try {
       const response = await fetch(`/api/venue/${venue.id}/update`, {
         method: "PUT",
         headers: await createAuthHeaders(),
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formattedFormData),
       });
 
       if (response.ok) {
@@ -54,6 +61,7 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
       }
     } catch (error) {
       console.error("Error updating venue:", error);
+      alert("An error occurred while updating the venue. Please try again.");
     } finally {
       setLoading(false);
     }
