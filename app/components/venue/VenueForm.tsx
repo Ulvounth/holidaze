@@ -138,7 +138,7 @@ const VenueForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded-lg"
+      className="max-w-7xl mx-auto bg-white p-8 shadow-md rounded-lg"
     >
       <h2 className="text-2xl font-semibold mb-6">Create a New Venue</h2>
       <VenueFormFields

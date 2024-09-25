@@ -51,9 +51,17 @@ const VenueFormFields: React.FC<VenueFormFieldsProps> = ({
           name="mediaUrl"
           value={formData.media[0]?.url || ""}
           onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+          className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 ${
+            errors.media && typeof errors.media === "string"
+              ? "border-red-500"
+              : ""
+          }`}
         />
+        {errors.media && typeof errors.media === "string" && (
+          <p className="text-red-500">{errors.media}</p>
+        )}
       </div>
+
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Media Alt Text

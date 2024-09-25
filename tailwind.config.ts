@@ -22,6 +22,9 @@ const config: Config = {
         btnPrimary: "#ec4899",
         btnSecondary: "#859EF5",
       },
+      maxWidth: {
+        "7xl": "77rem",
+      },
     },
   },
   plugins: [],
