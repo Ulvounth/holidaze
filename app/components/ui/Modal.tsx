@@ -38,11 +38,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       onClick={handleClickOutside}
     >
       <div
-        className="relative bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="relative bg-white p-8 rounded-lg shadow-xl w-full max-w-md transition-transform duration-300 transform-gpu ease-out"
+        style={{
+          background: "linear-gradient(145deg, #fdfdfd, #f2f2f2)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-2 text-gray-700"
+          className="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
           onClick={onClose}
           aria-label="Close"
         >
