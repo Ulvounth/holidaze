@@ -1,18 +1,17 @@
 "use client";
 
-import { useState, useCallback } from "react";
 import Modal from "./ui/Modal";
 import LoginForm from "./auth/LoginForm";
 import RegisterForm from "./auth/RegisterForm";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../lib/authContext";
+import { useModal } from "../lib/ModalContext";
 
 const Header: React.FC = () => {
   const { isLoggedIn, login, logout, user } = useAuth();
-  const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
-    null
-  );
+  const { openLoginModal, openRegisterModal, closeModal, activeModal } =
+    useModal();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -22,8 +21,6 @@ const Header: React.FC = () => {
     logout();
     router.replace("/");
   };
-
-  const closeModal = useCallback(() => setActiveModal(null), []);
 
   return (
     <header className="container mx-auto flex justify-between items-center p-4">
@@ -50,14 +47,14 @@ const Header: React.FC = () => {
         ) : (
           <>
             <button
-              onClick={() => setActiveModal("login")}
+              onClick={openLoginModal}
               className="mr-4 px-5 py-2 bg-btnSecondary rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             >
               Login
             </button>
 
             <button
-              onClick={() => setActiveModal("register")}
+              onClick={openRegisterModal}
               className="px-5 py-2 bg-btnPrimary text-white rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Register

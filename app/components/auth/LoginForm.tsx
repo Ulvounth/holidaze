@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@chakra-ui/react"; // Import useToast
 import { loginSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
 import Button from "../ui/Button";
@@ -19,6 +20,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({}); // State for field errors
   const router = useRouter();
+  const toast = useToast(); // Use toast for feedback
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,9 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -62,9 +62,26 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       const token = data.data.accessToken;
       onLoginSuccess(user, token);
 
+      toast({
+        title: "Logged in successfully.",
+        description: `Welcome back, ${user.name}!`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+
       router.push("/");
       onClose();
     } catch (error: any) {
+      toast({
+        title: "Login failed",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
       setErrors({ general: error.message });
     }
   };

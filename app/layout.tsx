@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import { ReactNode } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./lib/authContext";
+import { ModalProvider } from "./lib/ModalContext"; // Import ModalProvider
 import { Alkatra } from "next/font/google";
 
 interface LayoutProps {
@@ -48,11 +49,13 @@ export default async function Layout({ children }: LayoutProps) {
       <body className={`font-alkatra flex flex-col min-h-screen`}>
         <ChakraProvider>
           <AuthProvider isLoggedIn={isLoggedIn} initialUser={user}>
-            <Header />
-            <Suspense fallback={<Loader />}>
-              <main className="flex-grow">{children}</main>
-            </Suspense>
-            <Footer />
+            <ModalProvider>
+              <Header />
+              <Suspense fallback={<Loader />}>
+                <main className="flex-grow">{children}</main>
+              </Suspense>
+              <Footer />
+            </ModalProvider>
           </AuthProvider>
         </ChakraProvider>
       </body>
