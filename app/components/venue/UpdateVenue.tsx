@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react"; // Import Chakra Toast
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { Venue } from "@/app/lib/types";
 
@@ -21,6 +22,7 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
   });
 
   const [loading, setLoading] = useState(false);
+  const toast = useToast(); // Initialize toast
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,11 +40,10 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
     e.preventDefault();
     setLoading(true);
 
-    // Ensure price and maxGuests are numbers
     const formattedFormData = {
       ...formData,
-      price: Number(formData.price), // Ensure price is a number
-      maxGuests: Number(formData.maxGuests), // Ensure maxGuests is a number
+      price: Number(formData.price),
+      maxGuests: Number(formData.maxGuests),
     };
 
     try {
@@ -53,15 +54,37 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
       });
 
       if (response.ok) {
-        alert("Venue updated successfully!");
+        toast({
+          title: "Venue updated",
+          description: "The venue has been updated successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
         onSuccess();
       } else {
         const data = await response.json();
-        alert(data.message || "Failed to update venue.");
+        toast({
+          title: "Error",
+          description: data.message || "Failed to update venue.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       }
     } catch (error) {
       console.error("Error updating venue:", error);
-      alert("An error occurred while updating the venue. Please try again.");
+      toast({
+        title: "Error",
+        description:
+          "An error occurred while updating the venue. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
     } finally {
       setLoading(false);
     }
