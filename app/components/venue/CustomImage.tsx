@@ -29,17 +29,19 @@ const CustomImage: React.FC<CustomImageProps> = ({
   };
 
   return (
-    <Image
-      src={imageSrc}
-      alt={alt}
-      width={width}
-      height={height}
-      className={className}
-      onError={handleImageError}
-      loading={priority ? "eager" : "lazy"}
-      priority={priority}
-      unoptimized={unoptimized || imageSrc.includes("istockphoto.com")}
-    />
+    <div className="overflow-hidden">
+      <Image
+        src={imageSrc}
+        alt={alt}
+        width={width}
+        height={height}
+        className={`transform transition-transform duration-300 hover:scale-105 ${className}`}
+        onError={handleImageError}
+        loading={priority ? "eager" : "lazy"}
+        priority={priority}
+        unoptimized={unoptimized || imageSrc.includes("istockphoto.com")}
+      />
+    </div>
   );
 };
 

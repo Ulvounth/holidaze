@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Booking } from "@/app/lib/types";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { useToast } from "@chakra-ui/react";
-import ConfirmModal from "../ui/ConfirmModal"; // Import the modal component
+import ConfirmModal from "../ui/ConfirmModal";
 
 export default function MyBookings({ bookings }: { bookings: Booking[] }) {
   const router = useRouter();
@@ -66,26 +66,26 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">My Bookings</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {bookingList.map((booking) => (
           <div
             key={booking.id}
-            className="flex flex-col justify-between p-4 border-b bg-white shadow-md rounded-lg mb-4"
+            className="flex flex-col justify-between p-4 border bg-white shadow-lg rounded-lg mb-4 transition-shadow hover:shadow-xl"
           >
             <div className="flex flex-col items-center">
               {booking.venue?.media?.[0]?.url ? (
-                <div className="relative w-full h-[250px]">
+                <div className="relative w-full h-[250px] overflow-hidden rounded-lg">
                   <Image
                     src={booking.venue.media[0].url}
                     alt={booking.venue.media[0].alt || "Venue image"}
                     fill={true}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="rounded object-cover"
+                    className="object-cover hover:scale-105 transition-transform"
                     priority={true}
                   />
                 </div>
               ) : (
-                <div className="w-full h-[150px] bg-gray-300 flex items-center justify-center rounded">
+                <div className="w-full h-[150px] bg-gray-300 flex items-center justify-center rounded-lg">
                   No Image
                 </div>
               )}
@@ -105,13 +105,13 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
 
             <div className="flex justify-between w-full mt-4 gap-2">
               <button
-                className="flex-grow p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="flex-grow p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                 onClick={() => handleViewBooking(booking.venue.id)}
               >
                 View Booking
               </button>
               <button
-                className="flex-grow p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="flex-grow p-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
                 onClick={() => {
                   setSelectedBookingId(booking.id);
                   setIsModalOpen(true);
@@ -127,7 +127,7 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
       <ConfirmModal
         isOpen={isModalOpen}
         title="Cancel Booking"
-        description="Are you sure you want to delete this venue? This action cannot be undone."
+        description="Are you sure you want to cancel this booking? This action cannot be undone."
         onConfirm={handleCancelBooking}
         onCancel={() => setIsModalOpen(false)}
         isLoading={isCancelLoading}

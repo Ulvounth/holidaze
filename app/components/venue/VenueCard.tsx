@@ -11,7 +11,7 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
   return (
     <Link
       href={`/venue/${venue.id}`}
-      className="block bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
+      className="block bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-transform duration-300"
     >
       <div className="relative">
         <CustomImage
@@ -27,9 +27,9 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
           </div>
         )}
       </div>
-      <div className="p-4">
+      <div className="p-5">
         <h3 className="text-lg font-bold">{venue.name}</h3>
-        <div className="flex items-center">
+        <div className="flex items-center mt-2">
           {[...Array(5)].map((_, i) => (
             <RatingStar key={i} filled={i < venue.rating} />
           ))}
@@ -37,8 +37,10 @@ const VenueCard: React.FC<VenueCardProps> = ({ venue }) => {
             {venue.rating.toFixed(1)} / 5.0
           </span>
         </div>
-        <p className="text-gray-600">{venue.meta.reviews}</p>
-        <p className="text-pink-500 mt-2">${venue.price} / night</p>
+        <p className="text-gray-600 mt-1">{venue.meta.reviews}</p>
+        <p className="text-pink-500 text-lg font-bold mt-3">
+          ${venue.price} / night
+        </p>
       </div>
     </Link>
   );
