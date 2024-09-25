@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { updateProfile } from "@/app/lib/services/profile/updateProfile";
+import Button from "../ui/Button";
 
 type ProfileFormProps = {
   name: string;
@@ -112,12 +113,7 @@ export default function ProfileForm({
           className="w-full px-3 py-2 border rounded"
         />
       </div>
-      <button
-        type="submit"
-        className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
-      >
-        Update Profile
-      </button>
+      <Button label="Update Profile" type="submit" className=""></Button>
     </form>
   );
 }

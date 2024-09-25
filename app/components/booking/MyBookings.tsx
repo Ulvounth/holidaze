@@ -4,30 +4,29 @@ import { useState } from "react";
 import { Booking } from "@/app/lib/types";
 import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
 import { useToast } from "@chakra-ui/react";
+import ConfirmModal from "../ui/ConfirmModal"; // Import the modal component
 
 export default function MyBookings({ bookings }: { bookings: Booking[] }) {
   const router = useRouter();
   const toast = useToast();
   const [bookingList, setBookingList] = useState(bookings);
-
-  if (!bookingList || bookingList.length === 0) {
-    return <div>No bookings found.</div>;
-  }
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
+    null
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelLoading, setIsCancelLoading] = useState(false);
 
   const handleViewBooking = (venueId: string) => {
     router.push(`/venue/${venueId}`);
   };
 
-  const handleCancelBooking = async (bookingId: string) => {
-    const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this booking?"
-    );
-    if (!confirmCancel) return;
+  const handleCancelBooking = async () => {
+    if (!selectedBookingId) return;
 
+    setIsCancelLoading(true);
     try {
       const headers = await createAuthHeaders();
-
-      const response = await fetch(`/api/booking/${bookingId}/delete`, {
+      const response = await fetch(`/api/booking/${selectedBookingId}/delete`, {
         method: "DELETE",
         headers,
       });
@@ -43,8 +42,9 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
         });
 
         setBookingList((prevBookings) =>
-          prevBookings.filter((booking) => booking.id !== bookingId)
+          prevBookings.filter((booking) => booking.id !== selectedBookingId)
         );
+        setIsModalOpen(false);
       } else {
         const data = await response.json();
         toast({
@@ -58,6 +58,8 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
       }
     } catch (error) {
       console.error("Error canceling booking:", error);
+    } finally {
+      setIsCancelLoading(false);
     }
   };
 
@@ -110,7 +112,10 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
               </button>
               <button
                 className="flex-grow p-2 bg-red-500 text-white rounded hover:bg-red-600"
-                onClick={() => handleCancelBooking(booking.id)}
+                onClick={() => {
+                  setSelectedBookingId(booking.id);
+                  setIsModalOpen(true);
+                }}
               >
                 Cancel Booking
               </button>
@@ -118,6 +123,15 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
           </div>
         ))}
       </div>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Cancel Booking"
+        description="Are you sure you want to delete this venue? This action cannot be undone."
+        onConfirm={handleCancelBooking}
+        onCancel={() => setIsModalOpen(false)}
+        isLoading={isCancelLoading}
+      />
     </div>
   );
 }

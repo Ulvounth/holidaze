@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { createBooking } from "@/app/lib/services/booking/createBooking";
 import DateRangePicker from "./DateRangePicker";
+import Button from "../ui/Button";
 
 type BookingFormProps = {
   venueId: string;
@@ -112,12 +113,7 @@ export default function BookingForm({
         <div className="text-2xl font-bold">Total: ${totalPrice}</div>
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
-      >
-        Book Now
-      </button>
+      <Button label="Book Now" type="submit" className=""></Button>
     </form>
   );
 }

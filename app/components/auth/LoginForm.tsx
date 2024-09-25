@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
+import Button from "../ui/Button";
 
 interface LoginFormProps {
   onClose: () => void;
@@ -89,9 +90,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
         error={errors.password}
       />
       {errors.general && <p className="text-red-500">{errors.general}</p>}
-      <button type="submit" className="mr-4 px-5 py-2 bg-btnSecondary rounded">
-        Login
-      </button>
+      <Button label="Login" type="submit" className=""></Button>
     </form>
   );
 };

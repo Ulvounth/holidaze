@@ -35,14 +35,14 @@ const Header: React.FC = () => {
           <>
             {user?.name && (
               <Link href={`/profile/${user.name}`}>
-                <button className="mr-4 px-5 py-2 border border-gray-300 rounded">
+                <button className="mr-4 px-5 py-2 border border-gray-300 rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2">
                   Profile
                 </button>
               </Link>
             )}
             <button
               onClick={handleLogout}
-              className="px-5 py-2 bg-red-500 text-white rounded"
+              className="px-5 py-2 bg-red-500 text-white rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
             >
               Log out
             </button>
@@ -51,13 +51,14 @@ const Header: React.FC = () => {
           <>
             <button
               onClick={() => setActiveModal("login")}
-              className="mr-4 px-5 py-2 bg-btnSecondary rounded"
+              className="mr-4 px-5 py-2 bg-btnSecondary rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             >
               Login
             </button>
+
             <button
               onClick={() => setActiveModal("register")}
-              className="px-5 py-2 bg-btnPrimary text-white rounded"
+              className="px-5 py-2 bg-btnPrimary text-white rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Register
             </button>

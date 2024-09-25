@@ -7,6 +7,7 @@ import { venueSchema, VenueFormSchema } from "@/app/lib/schemas/venueSchema";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
 import { formatVenueData } from "@/app/lib/formatVenueData";
+import Button from "../ui/Button";
 
 const VenueForm = () => {
   const [formData, setFormData] = useState<VenueFormSchema>({
@@ -148,12 +149,7 @@ const VenueForm = () => {
         handleChange={handleChange}
         errors={errors}
       />
-      <button
-        type="submit"
-        className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white py-3 px-5 rounded-lg font-semibold hover:from-blue-600 hover:to-teal-600 transition-transform transform hover:scale-105 duration-300 mt-6"
-      >
-        Create Venue
-      </button>
+      <Button label="Create Venue" type="submit" className=""></Button>
     </form>
   );
 };

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Button from "../ui/Button";
 import { useToast } from "@chakra-ui/react";
 import { registerSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
@@ -121,12 +121,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
         </label>
       </div>
       {errors.general && <p className="text-red-500">{errors.general}</p>}
-      <button
-        type="submit"
-        className="px-5 py-2 bg-btnPrimary text-white rounded mt-4"
-      >
-        Register
-      </button>
+      <Button label="Register" type="submit" className=""></Button>
     </form>
   );
 };
