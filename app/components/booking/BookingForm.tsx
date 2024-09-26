@@ -5,8 +5,8 @@ import { useToast } from "@chakra-ui/react";
 import { createBooking } from "@/app/lib/services/booking/createBooking";
 import DateRangePicker from "./DateRangePicker";
 import Button from "../ui/Button";
-import { useAuth } from "@/app/lib/authContext"; // Import useAuth
-import { useModal } from "@/app/lib/ModalContext";
+import { useAuth } from "@/app/lib/context/authContext"; // Import useAuth
+import { useModal } from "@/app/lib/context/ModalContext";
 
 type BookingFormProps = {
   venueId: string;

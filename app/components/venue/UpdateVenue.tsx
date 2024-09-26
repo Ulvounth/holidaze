@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react"; // Import Chakra Toast
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 import { Venue } from "@/app/lib/types";
 
 type UpdateVenueFormProps = {

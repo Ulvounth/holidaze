@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useToast } from "@chakra-ui/react"; // Import useToast
+import { useToast } from "@chakra-ui/react";
 import { loginSchema } from "@/app/lib/schemas/authSchemas";
 import InputField from "../ui/InputField";
 import Button from "../ui/Button";
@@ -18,9 +18,9 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({}); // State for field errors
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
-  const toast = useToast(); // Use toast for feedback
+  const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,9 +47,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.errors?.[0]?.message || "Login failed. Please try again."
-        );
+        console.error("API Error Response:", data);
+        throw new Error(data.error || "Login failed. Please try again.");
       }
 
       const user = {
@@ -74,15 +73,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onLoginSuccess }) => {
       router.push("/");
       onClose();
     } catch (error: any) {
+      console.error("Error during login:", error);
+
+      const errorMessage = error.message || "An unexpected error occurred.";
+
+      setErrors({ general: errorMessage });
+
       toast({
         title: "Login failed",
-        description: error.message,
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "top",
       });
-      setErrors({ general: error.message });
     }
   };
 

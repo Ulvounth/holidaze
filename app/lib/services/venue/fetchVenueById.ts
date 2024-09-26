@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../../constants";
+import { API_BASE_URL } from "../../utils/constants";
 import { Venue } from "../../types";
 
 export const fetchVenueById = async (id: string): Promise<Venue | null> => {

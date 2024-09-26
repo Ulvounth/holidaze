@@ -1,6 +1,6 @@
-import { API_BASE_URL } from "@/app/lib/constants";
+import { API_BASE_URL } from "@/app/lib/utils/constants";
 import { ProfileUpdateData } from "@/app/lib/types";
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 
 export const updateProfile = async (
   name: string,

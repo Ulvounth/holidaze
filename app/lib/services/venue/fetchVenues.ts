@@ -1,5 +1,5 @@
 import { Venue } from "../../types";
-import { API_BASE_URL } from "../../constants";
+import { API_BASE_URL } from "../../utils/constants";
 
 export const fetchVenues = async (
   page: number = 1,

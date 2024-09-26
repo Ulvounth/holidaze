@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { RegisterRequestBody } from "@/app/lib/types";
+import { API_BASE_URL } from "@/app/lib/utils/constants";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
       venueManager,
     }: RegisterRequestBody = await req.json();
 
-    const response = await fetch("https://v2.api.noroff.dev/auth/register", {
+    const response = await fetch(`${API_BASE_URL}auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,10 +44,21 @@ export async function POST(req: NextRequest) {
     }
 
     const cookiesStore = cookies();
+
+    // Set the accessToken in cookies
     cookiesStore.set("accessToken", data.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60, //
+      maxAge: 60 * 60, // 1 hour
+      sameSite: "strict",
+      path: "/",
+    });
+
+    // Set the user data in cookies (customize based on the structure of `data`)
+    cookiesStore.set("user", JSON.stringify(data), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 60 * 60, // 1 hour
       sameSite: "strict",
       path: "/",
     });

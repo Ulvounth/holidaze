@@ -19,8 +19,8 @@ const config: Config = {
         },
       },
       colors: {
-        btnPrimary: "#ec4899",
-        btnSecondary: "#859EF5",
+        btnPrimary: "#e57399",
+        btnSecondary: "#98a6f5",
       },
       maxWidth: {
         "7xl": "77rem",

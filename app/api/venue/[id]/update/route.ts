@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 import { fetchVenueById } from "@/app/lib/services/venue/fetchVenueById";
 import { updateVenueById } from "@/app/lib/services/venue/updateVenueById";
 

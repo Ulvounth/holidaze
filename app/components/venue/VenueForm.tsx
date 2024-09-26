@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { venueSchema, VenueFormSchema } from "@/app/lib/schemas/venueSchema";
 import VenueFormFields from "./VenueFormFields";
 import { createVenue } from "@/app/lib/services/venue/createVenue";
-import { formatVenueData } from "@/app/lib/formatVenueData";
+import { formatVenueData } from "@/app/lib/utils/formatVenueData";
 import Button from "../ui/Button";
 
 const VenueForm = () => {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 import { deleteBooking } from "@/app/lib/services/booking/deleteBooking";
 
 export async function DELETE(

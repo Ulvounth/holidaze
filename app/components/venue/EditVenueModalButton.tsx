@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "../ui/Modal";
-import { useAuth } from "@/app/lib/authContext";
+import { useAuth } from "@/app/lib/context/authContext";
 import { Venue } from "@/app/lib/types";
 import UpdateVenueForm from "./UpdateVenue";
 import DeleteVenueButton from "./DeleteVenue";

@@ -56,9 +56,9 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.errors?.[0]?.message || "Registration failed. Please try again."
-        );
+        console.error("API Error Response:", data);
+        // Assume that `data.error` contains the relevant error message.
+        throw new Error(data.error || "An unexpected error occurred.");
       }
 
       toast({
@@ -72,7 +72,19 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
       router.push("/");
       onClose();
     } catch (error: any) {
-      setErrors({ general: error.message });
+      console.error("Error during registration:", error);
+
+      const errorMessage = error.message || "An unexpected error occurred.";
+
+      setErrors({ general: errorMessage });
+
+      toast({
+        title: "Unexpected Error",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 

@@ -7,8 +7,8 @@ import "./globals.css";
 import Footer from "./components/Footer";
 import { ReactNode } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { AuthProvider } from "./lib/authContext";
-import { ModalProvider } from "./lib/ModalContext"; // Import ModalProvider
+import { AuthProvider } from "./lib/context/authContext";
+import { ModalProvider } from "./lib/context/ModalContext"; // Import ModalProvider
 import { Alkatra } from "next/font/google";
 
 interface LayoutProps {

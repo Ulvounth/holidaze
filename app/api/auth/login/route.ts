@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { API_BASE_URL } from "@/app/lib/constants";
+import { API_BASE_URL } from "@/app/lib/utils/constants";
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,13 +32,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { accessToken } = result.data;
+    const { accessToken, ...userData } = result.data;
 
     const cookiesStore = cookies();
     cookiesStore.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60,
+      maxAge: 60 * 60, // 1 hour
+      sameSite: "strict",
+      path: "/",
+    });
+
+    // Store user data as a cookie (optional, customize the value based on your use case)
+    cookiesStore.set("user", JSON.stringify(userData), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 60 * 60, // 1 hour
       sameSite: "strict",
       path: "/",
     });

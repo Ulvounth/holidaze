@@ -1,5 +1,5 @@
-import { API_BASE_URL } from "../../constants";
-import { createAuthHeaders } from "../../createAuthHeaders";
+import { API_BASE_URL } from "../../utils/constants";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 
 interface BookingData {
   dateFrom: string;

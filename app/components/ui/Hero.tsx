@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 const Hero: React.FC = () => {
   return (
     <section
-      className="relative bg-cover bg-center h-screen"
+      className="relative bg-cover bg-center h-[50vh]"
       style={{ backgroundImage: "url(/images/hero.jpg)" }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">

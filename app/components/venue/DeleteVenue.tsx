@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/app/lib/authContext";
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { useAuth } from "@/app/lib/context/authContext";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 import ConfirmModal from "../ui/ConfirmModal"; // Import the modal component
 import { useToast } from "@chakra-ui/react"; // Import the Chakra toast
 

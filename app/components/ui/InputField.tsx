@@ -38,7 +38,7 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className={`my-2 block w-full p-2 border rounded-md ${
+        className={`my-2 block w-full p-2 bg-white text-gray-900 border rounded-md ${
           error ? "border-red-500" : "border-gray-300"
         }`}
         required={required}
@@ -51,7 +51,7 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         name={name}
-        className={`my-2 block w-full p-2 border rounded-md ${
+        className={`my-2 block w-full p-2 bg-white text-gray-900 border rounded-md ${
           error ? "border-red-500" : "border-gray-300"
         }`}
         required={required}

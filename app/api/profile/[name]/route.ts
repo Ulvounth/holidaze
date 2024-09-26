@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { API_BASE_URL } from "@/app/lib/constants";
+import { API_BASE_URL } from "@/app/lib/utils/constants";
 import sanitize from "sanitize-html";
 import { cookies } from "next/headers";
 

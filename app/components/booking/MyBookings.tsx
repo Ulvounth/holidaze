@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Booking } from "@/app/lib/types";
-import { createAuthHeaders } from "@/app/lib/createAuthHeaders";
+import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
 import { useToast } from "@chakra-ui/react";
 import ConfirmModal from "../ui/ConfirmModal";
 
