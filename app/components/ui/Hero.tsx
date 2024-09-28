@@ -4,7 +4,7 @@ const Hero: React.FC = () => {
   return (
     <section
       className="relative bg-cover bg-center h-[50vh]"
-      style={{ backgroundImage: "url(/images/hero.jpg)" }}
+      style={{ backgroundImage: "url(/images/hero.webp)" }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
