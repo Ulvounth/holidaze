@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: venue.name,
     description: venue.description || "Book your stay at this amazing venue.",
+    keywords: ["vacation", "holiday rentals", "booking", "venues"],
     openGraph: {
       title: venue.name,
       description: venue.description || "Book your stay at this amazing venue.",

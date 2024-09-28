@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Holidaze",
   description:
     "Browse through our wide selection of venues for your next vacation.",
+  keywords: ["vacation", "holiday rentals", "booking", "venues"],
   openGraph: {
     title: "Explore Venues | Holidaze",
     description:
@@ -31,6 +32,7 @@ const alkatra = Alkatra({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-alkatra",
+  preload: false,
 });
 
 export default async function Layout({ children }: LayoutProps) {
