@@ -50,7 +50,7 @@ const Nav: React.FC = () => {
               onClick={openLoginModal}
               className="mr-4 px-5 py-2 text-white border border-gray-300 rounded transition-all duration-200 ease-in-out transform hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             >
-              Login
+              Log In
             </button>
 
             <button
@@ -63,13 +63,21 @@ const Nav: React.FC = () => {
         )}
       </div>
 
-      <Modal isOpen={activeModal === "login"} onClose={closeModal}>
+      <Modal
+        isOpen={activeModal === "login"}
+        onClose={closeModal}
+        title="Log In"
+      >
         <LoginForm
           onClose={closeModal}
           onLoginSuccess={(user, token) => login(user, token)}
         />
       </Modal>
-      <Modal isOpen={activeModal === "register"} onClose={closeModal}>
+      <Modal
+        isOpen={activeModal === "register"}
+        onClose={closeModal}
+        title="Register"
+      >
         <RegisterForm onClose={closeModal} />
       </Modal>
     </nav>

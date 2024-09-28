@@ -16,7 +16,7 @@ export default async function Home() {
     <>
       <Hero />
 
-      <div className="container mx-auto py-6">
+      <div className="container mx-auto py-6 px-4 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold mb-4">Venues</h2>
 
         <LoadMoreVenues initialVenues={initialVenues} />

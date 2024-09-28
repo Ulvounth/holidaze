@@ -6,9 +6,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  title?: string; // Add title prop for the modal header
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -31,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4 sm:px-6"
       role="dialog"
       aria-modal="true"
       data-modal-backdrop="true"
@@ -44,6 +45,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Modal Header */}
+        {title && (
+          <h2 className="text-2xl font-bold mb-4 text-center text-gray-900">
+            {title}
+          </h2>
+        )}
+        {/* Close Button */}
         <button
           className="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
           onClick={onClose}
@@ -51,6 +59,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         >
           ✕
         </button>
+        {/* Modal Content */}
         {children}
       </div>
     </div>

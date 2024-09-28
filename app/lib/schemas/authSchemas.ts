@@ -13,7 +13,7 @@ export const loginSchema = z.object({
 export const registerSchema = z.object({
   name: z
     .string()
-    .min(1, { message: "Name is required" })
+    .min(2, { message: "Name is required" })
     .regex(/^[a-zA-Z0-9_]+$/, {
       message:
         "Name must not contain spaces or special characters except underscores.",
