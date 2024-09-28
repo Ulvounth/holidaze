@@ -1,7 +1,7 @@
 export async function deleteVenueById(venueId: string, headers: Headers) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}holdaze/venues/${venueId}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}holidaze/venues/${venueId}`,
       {
         method: "DELETE",
         headers: headers,
