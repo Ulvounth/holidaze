@@ -17,13 +17,14 @@ export const updateProfile = async (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to update profile");
+      throw new Error(
+        errorData.errors?.[0]?.message || "Failed to update profile"
+      );
     }
 
-    const result = await response.json();
-    return result;
+    return response.json();
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error(`Error updating profile for ${name}:`, error);
     throw error;
   }
 };

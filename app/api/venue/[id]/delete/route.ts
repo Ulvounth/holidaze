@@ -43,11 +43,13 @@ export async function DELETE(
     await deleteVenueById(venueId, headers);
 
     return new NextResponse(null, { status: 204 });
-  } catch (error) {
+  } catch (error: any) {
+    // Log the error for debugging
     console.error("Error deleting venue:", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
+
+    // Return the error message to the client if it's available
+    const errorMessage = error.message || "Internal Server Error";
+
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

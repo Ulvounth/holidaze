@@ -44,11 +44,13 @@ export async function PUT(
     const updatedVenue = await updateVenueById(venueId, body, headers);
 
     return NextResponse.json({ data: updatedVenue }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
+    // Log the error for debugging
     console.error("Error updating venue:", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
+
+    // Return the error message to the client if it's available
+    const errorMessage = error.message || "Internal Server Error";
+
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

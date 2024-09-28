@@ -47,8 +47,10 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
         setIsModalOpen(false);
       } else {
         const data = await response.json();
+        console.error("Error canceling booking:", data);
+
         toast({
-          title: "Booking cancel.",
+          title: "Booking cancel error.",
           description: data.message || "Failed to cancel booking.",
           status: "error",
           duration: 5000,
@@ -56,8 +58,18 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
           position: "top",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Catch the detailed error thrown by deleteBooking
       console.error("Error canceling booking:", error);
+
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
     } finally {
       setIsCancelLoading(false);
     }

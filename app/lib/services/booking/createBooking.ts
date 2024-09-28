@@ -24,7 +24,9 @@ export const createBooking = async (bookingData: BookingData) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       console.error("API Error Response:", errorResponse);
-      throw new Error(errorResponse.message || "Failed to create booking");
+      throw new Error(
+        errorResponse.errors?.[0]?.message || "Failed to create booking"
+      );
     }
 
     const result = await response.json();

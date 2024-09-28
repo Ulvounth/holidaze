@@ -3,18 +3,26 @@ export async function updateVenueById(
   venueData: any,
   headers: Headers
 ) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}holidaze/venues/${venueId}`,
-    {
-      method: "PUT",
-      headers: headers,
-      body: JSON.stringify(venueData),
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}holidaze/venues/${venueId}`,
+      {
+        method: "PUT",
+        headers: headers,
+        body: JSON.stringify(venueData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.errors?.[0]?.message || "Failed to update venue"
+      );
     }
-  );
 
-  if (!response.ok) {
-    throw new Error("Failed to update venue");
+    return response.json();
+  } catch (error) {
+    console.error(`Error updating venue with ID ${venueId}:`, error);
+    throw error;
   }
-
-  return response.json();
 }

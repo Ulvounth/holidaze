@@ -136,8 +136,14 @@ export default async function VenuePage({ params }: Props) {
         </div>
       </div>
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error loading venue details:", error);
-    return <div>Failed to load venue details. Please try again later.</div>;
+    const errorMessage =
+      error.message || "Failed to load venue details. Please try again later.";
+    return (
+      <div className="container mx-auto py-6 px-4 lg:px-12">
+        <h2 className="text-2xl font-bold text-red-500">{errorMessage}</h2>
+      </div>
+    );
   }
 }

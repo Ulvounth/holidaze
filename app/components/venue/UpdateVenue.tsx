@@ -22,7 +22,7 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const toast = useToast(); // Initialize toast
+  const toast = useToast();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -53,18 +53,9 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
         body: JSON.stringify(formattedFormData),
       });
 
-      if (response.ok) {
-        toast({
-          title: "Venue updated",
-          description: "The venue has been updated successfully.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
-        onSuccess();
-      } else {
-        const data = await response.json();
+      const data = await response.json();
+
+      if (!response.ok) {
         toast({
           title: "Error",
           description: data.message || "Failed to update venue.",
@@ -73,7 +64,18 @@ const UpdateVenueForm = ({ venue, onSuccess }: UpdateVenueFormProps) => {
           isClosable: true,
           position: "top",
         });
+        return;
       }
+
+      toast({
+        title: "Venue updated",
+        description: "The venue has been updated successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      onSuccess();
     } catch (error) {
       console.error("Error updating venue:", error);
       toast({

@@ -13,10 +13,14 @@ export async function DELETE(
     await deleteBooking(bookingId, headers);
 
     return new Response(null, { status: 204 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error deleting booking:", error);
+
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      {
+        message: error.message || "Internal Server Error",
+        errors: error.errors || [],
+      },
       { status: 500 }
     );
   }

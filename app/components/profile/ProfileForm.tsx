@@ -54,6 +54,7 @@ export default function ProfileForm({
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     } catch (error: any) {
       toast({
@@ -62,6 +63,7 @@ export default function ProfileForm({
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top",
       });
     }
   };
