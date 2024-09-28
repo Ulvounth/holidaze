@@ -7,9 +7,9 @@ const Hero: React.FC = () => {
       style={{ backgroundImage: "url(/images/hero.jpg)" }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
           Secure your dream vacation at an unbeatable price here!
-        </h2>
+        </h1>
 
         <div className="w-full max-w-2xl mx-auto">
           <SearchBar className="w-full" />
