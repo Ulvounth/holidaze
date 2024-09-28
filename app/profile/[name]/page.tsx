@@ -4,6 +4,26 @@ import fetchProfileData from "@/app/lib/services/profile/fetchProfile";
 import { fetchProfileVenues } from "@/app/lib/services/profile/fetchProfileVenues";
 import Tabs from "@/app/components/profile/Tabs";
 import Link from "next/link";
+import { Metadata } from "next";
+
+type Props = {
+  params: {
+    name: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const userName = params.name || "Profile";
+
+  return {
+    title: `${userName}'s Profile | Holidaze`,
+    description: `View ${userName}'s profile and managed venues on Holidaze.`,
+    openGraph: {
+      title: `${userName}'s Profile | Holidaze`,
+      description: `Check out the venues and bookings managed by ${userName} on Holidaze.`,
+    },
+  };
+}
 
 async function ProfilePage({ params }: { params: { name: string } }) {
   const { name } = params;

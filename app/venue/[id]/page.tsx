@@ -11,12 +11,40 @@ type Props = {
   };
 };
 
-export const generateMetadata = ({ params }: Props): Metadata => {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const venue = await fetchVenueById(params.id);
+
+  if (!venue) {
+    return {
+      title: "Venue Not Found",
+      description: "The requested venue does not exist.",
+    };
+  }
+
   return {
-    title: `Venue ${params.id}`,
-    description: "Venue details",
+    title: venue.name,
+    description: venue.description || "Book your stay at this amazing venue.",
+    openGraph: {
+      title: venue.name,
+      description: venue.description || "Book your stay at this amazing venue.",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/venue/${venue.id}`,
+      images: [
+        {
+          url: venue.media[0]?.url || "/images/placeholder.webp",
+          width: 1200,
+          height: 800,
+          alt: venue.media[0]?.alt || "Venue image",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: venue.name,
+      description: venue.description || "Book your stay at this amazing venue.",
+      images: venue.media[0]?.url || "/images/placeholder.webp",
+    },
   };
-};
+}
 
 export default async function VenuePage({ params }: Props) {
   try {

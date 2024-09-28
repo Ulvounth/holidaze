@@ -15,7 +15,6 @@ export default async function Home() {
       err.message || "Failed to load venues. Please try again later.";
   }
 
-  // Pass the error message to the LoadMoreVenues component
   return (
     <>
       <Hero />

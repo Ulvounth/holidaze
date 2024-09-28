@@ -14,7 +14,7 @@ export async function fetchSearchResults(
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_BASE_URL
-      }holdaze/venues/search?${searchParams.toString()}`,
+      }holidaze/venues/search?${searchParams.toString()}`,
       {
         headers: {
           "Content-Type": "application/json",
