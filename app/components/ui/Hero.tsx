@@ -1,11 +1,18 @@
+import Image from "next/image";
 import SearchBar from "./SearchBar";
 
 const Hero: React.FC = () => {
   return (
-    <section
-      className="relative bg-cover bg-center h-[50vh]"
-      style={{ backgroundImage: "url(/images/hero.webp)" }}
-    >
+    <section className="relative h-[50vh]">
+      <Image
+        src="/images/hero.webp"
+        alt="Hero Background"
+        layout="fill"
+        objectFit="cover"
+        priority={true}
+        quality={75}
+      />
+
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-center">
           Secure your dream vacation at an unbeatable price here!
