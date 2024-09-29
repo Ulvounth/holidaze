@@ -4,17 +4,14 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white p-6">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        {/* Left side */}
         <div className="text-lg font-semibold">
           <h1>Holidaze</h1>
         </div>
 
-        {/* Center */}
         <div className="text-center text-sm mt-2 md:mt-0">
           <p>&copy; 2024 Andreas Ulvund</p>
         </div>
 
-        {/* Right side - Social media icons */}
         <div className="flex space-x-6 mt-2 md:mt-0">
           <a
             href="https://github.com/Ulvounth"

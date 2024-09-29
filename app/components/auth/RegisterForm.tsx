@@ -6,9 +6,7 @@ const RegisterForm = ({ onClose }: { onClose: () => void }) => {
     <AuthForm
       schema={registerSchema}
       endpoint="/api/auth/register"
-      onSuccess={() => {
-        // Handle any additional logic for registration success
-      }}
+      onSuccess={() => {}}
       onClose={onClose}
       formFields={[
         {

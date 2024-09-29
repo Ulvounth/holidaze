@@ -7,7 +7,7 @@ interface InputFieldProps {
   label: string;
   type: string;
   placeholder: string;
-  value: string | boolean; // Allow boolean for checkboxes
+  value: string | boolean;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;

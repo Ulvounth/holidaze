@@ -5,11 +5,11 @@ import VenueCard from "../venue/VenueCard";
 import { Venue } from "@/app/lib/types";
 import LoadMoreButton from "./LoadMoreButton";
 import { fetchVenues } from "@/app/lib/services/venue/fetchVenues";
-import { useToast } from "@chakra-ui/react"; // Import the Chakra toast
+import { useToast } from "@chakra-ui/react";
 
 interface LoadMoreVenuesProps {
   initialVenues: Venue[];
-  initialError?: string; // Accept initial error as a prop
+  initialError?: string;
 }
 
 const LoadMoreVenues: React.FC<LoadMoreVenuesProps> = ({
@@ -21,9 +21,8 @@ const LoadMoreVenues: React.FC<LoadMoreVenuesProps> = ({
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<string | null>(initialError || null);
-  const toast = useToast(); // Initialize the toast
+  const toast = useToast();
 
-  // Show a toast for the initial error if any
   useEffect(() => {
     if (initialError) {
       toast({
@@ -39,7 +38,7 @@ const LoadMoreVenues: React.FC<LoadMoreVenuesProps> = ({
 
   const loadMoreVenues = async () => {
     setLoading(true);
-    setError(null); // Reset error state
+    setError(null);
 
     try {
       const newVenues = await fetchVenues(page);
@@ -51,7 +50,6 @@ const LoadMoreVenues: React.FC<LoadMoreVenuesProps> = ({
     } catch (error: any) {
       console.error("Error loading venues:", error);
 
-      // Update error state and show toast with detailed error message
       const errorMessage = error.message || "Failed to load more venues.";
       setError(errorMessage);
 

@@ -45,20 +45,18 @@ export async function POST(req: NextRequest) {
 
     const cookiesStore = cookies();
 
-    // Set the accessToken in cookies
     cookiesStore.set("accessToken", data.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60,
       sameSite: "strict",
       path: "/",
     });
 
-    // Set the user data in cookies (customize based on the structure of `data`)
     cookiesStore.set("user", JSON.stringify(data), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60,
       sameSite: "strict",
       path: "/",
     });

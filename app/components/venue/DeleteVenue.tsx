@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useAuth } from "@/app/lib/context/authContext";
 import { createAuthHeaders } from "@/app/lib/utils/createAuthHeaders";
-import ConfirmModal from "../ui/ConfirmModal"; // Import the modal component
-import { useToast } from "@chakra-ui/react"; // Import the Chakra toast
+import ConfirmModal from "../ui/ConfirmModal";
+import { useToast } from "@chakra-ui/react";
 
 type DeleteVenueButtonProps = {
   venueId: string;
@@ -15,7 +15,7 @@ const DeleteVenueButton = ({ venueId, onClose }: DeleteVenueButtonProps) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const toast = useToast(); // Initialize the toast
+  const toast = useToast();
 
   if (!user) {
     return null;

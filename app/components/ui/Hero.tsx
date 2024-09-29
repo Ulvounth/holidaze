@@ -7,10 +7,10 @@ const Hero: React.FC = () => {
       <Image
         src="/images/hero.webp"
         alt="Hero Background"
-        layout="fill"
-        objectFit="cover"
+        fill
         priority={true}
         quality={75}
+        style={{ objectFit: "cover" }}
       />
 
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white px-4">

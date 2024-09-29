@@ -59,7 +59,6 @@ export default function MyBookings({ bookings }: { bookings: Booking[] }) {
         });
       }
     } catch (error: any) {
-      // Catch the detailed error thrown by deleteBooking
       console.error("Error canceling booking:", error);
 
       toast({

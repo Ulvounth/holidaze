@@ -5,7 +5,7 @@ import { useToast } from "@chakra-ui/react";
 import { createBooking } from "@/app/lib/services/booking/createBooking";
 import DateRangePicker from "./DateRangePicker";
 import Button from "../ui/Button";
-import { useAuth } from "@/app/lib/context/authContext"; // Import useAuth
+import { useAuth } from "@/app/lib/context/authContext";
 import { useModal } from "@/app/lib/context/ModalContext";
 
 type BookingFormProps = {
@@ -21,13 +21,13 @@ export default function BookingForm({
   maxGuests,
   bookedDates,
 }: BookingFormProps) {
-  const { isLoggedIn } = useAuth(); // Check if the user is logged in
+  const { isLoggedIn } = useAuth();
   const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
   const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
   const [guests, setGuests] = useState(1);
   const toast = useToast();
 
-  const { openLoginModal, openRegisterModal } = useModal(); // Use modals for login and register
+  const { openLoginModal, openRegisterModal } = useModal();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
       path: "/",
     });
 
-    // Store user data as a cookie (optional, customize the value based on your use case)
     cookiesStore.set("user", JSON.stringify(userData), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",

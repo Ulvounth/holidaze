@@ -13,7 +13,7 @@ const VenueForm = () => {
   const [formData, setFormData] = useState<VenueFormSchema>({
     name: "",
     description: "",
-    media: [{ url: "", alt: "" }], // Initialize media array with an object
+    media: [{ url: "", alt: "" }],
     price: 0,
     maxGuests: 0,
     rating: 0,
@@ -60,9 +60,7 @@ const VenueForm = () => {
           },
         ],
       }));
-    }
-    // Handle nested fields for meta and location
-    else if (name in formData.meta) {
+    } else if (name in formData.meta) {
       setFormData((prevState) => ({
         ...prevState,
         meta: {
