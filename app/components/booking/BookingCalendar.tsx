@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -15,14 +15,17 @@ const BookingCalendar = ({ bookings }: BookingCalendarProps) => {
     setHydrated(true);
   }, []);
 
-  const isDateBooked = (date: Date) => {
-    const time = date.getTime();
-    return bookings.some(
-      (booking) =>
-        time >= new Date(booking.from).getTime() &&
-        time <= new Date(booking.to).getTime()
-    );
-  };
+  const isDateBooked = useCallback(
+    (date: Date) => {
+      const time = date.getTime();
+      return bookings.some(
+        (booking) =>
+          time >= new Date(booking.from).getTime() &&
+          time <= new Date(booking.to).getTime()
+      );
+    },
+    [bookings]
+  );
 
   if (!hydrated) {
     return null;

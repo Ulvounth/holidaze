@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
         alt="Hero Background"
         fill
         priority={true}
-        quality={75}
+        quality={50}
         style={{ objectFit: "cover" }}
       />
 
