@@ -1,6 +1,8 @@
 <h1>Holidaze</h1>
 <p>Project Exam 2 @ Noroff School of technology and digital media</p>
 
+![2024-09-29 (1)](https://github.com/user-attachments/assets/605680c4-7ccc-4f66-8f5b-2e914a382cd0)
+
 ## Description
 
 This is my final project for Noroff, developed using Next.js, TypeScript, and Tailwind CSS. It is a holiday booking platform called Holidaze, where users can browse, book, and manage vacation rentals effortlessly.
